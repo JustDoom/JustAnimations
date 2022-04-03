@@ -1,9 +1,0 @@
-com/imjustdoom/justanimations/AnimationFrame.class
-com/imjustdoom/justanimations/config/AnimeConfig$Messages.class
-com/imjustdoom/justanimations/command/AnimeCommand.class
-com/imjustdoom/justanimations/util/BlockVector.class
-com/imjustdoom/justanimations/storage/YamlStorage.class
-com/imjustdoom/justanimations/config/AnimeConfig.class
-com/imjustdoom/justanimations/command/tabcomplete/AnimeTabCompletion.class
-com/imjustdoom/justanimations/BlockAnimation.class
-com/imjustdoom/justanimations/JustAnimations.class
