@@ -1,0 +1,8 @@
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/JustAnimations.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/storage/YamlStorage.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/command/AnimeCommand.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/config/AnimeConfig.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/BlockAnimation.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/AnimationFrame.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/util/BlockVector.java
+/home/doom/Documents/GitHub/BlockAnime/src/main/java/com/imjustdoom/justanimations/command/tabcomplete/AnimeTabCompletion.java
