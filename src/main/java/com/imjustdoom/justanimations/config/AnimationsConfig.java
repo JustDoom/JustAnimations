@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,10 @@ public class AnimationsConfig {
             for (File animation : new File(YamlStorage.dataFolder).listFiles()) {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
-                for (File frame : animation.listFiles()) {
+                File[] frames = animation.listFiles();
+                Arrays.sort(frames);
+                for (File frame : frames) {
+                    System.out.println(frame.getName());
                     if(frame.getName().startsWith("settings")) {
                         FileConfiguration settings = YamlConfiguration.loadConfiguration(frame);
                         blockAnimation.setReverse(settings.getBoolean("reverse"));
@@ -54,6 +58,7 @@ public class AnimationsConfig {
                     blockAnimation.addFrame(animationFrame);
                 }
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
+                blockAnimation.play();
             }
         }
     }
