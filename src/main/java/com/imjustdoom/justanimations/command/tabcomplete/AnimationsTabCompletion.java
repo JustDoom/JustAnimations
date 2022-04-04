@@ -18,8 +18,8 @@ public class AnimationsTabCompletion implements TabCompleter {
 
         if(args.length == 1){
             result.add("reload");
-            result.add("createanimation");
-            result.add("removeanimation");
+            result.add("create");
+            result.add("remove");
             result.addAll(JustAnimations.INSTANCE.getAnimations().keySet());
             return result;
         }
