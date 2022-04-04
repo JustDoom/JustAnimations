@@ -61,7 +61,9 @@ public class BlockAnimation {
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
             if(timer == (goingReverse ? frames.get(frame).getDelay() / 2 : frames.get(frame).getDelay())) {
                 for(BlockVector loc : getFrames().get(frame).getBlockVectors()) {
-                    world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+                    if(world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).getBlockData().getMaterial() != loc.getBlockData().getMaterial()) {
+                        world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+                    }
                 }
                 if(!reverse) {
                     frame = frame + 1 == frames.size() ? 0 : ++frame;
