@@ -17,7 +17,7 @@ public class BlockAnimation {
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
-    private boolean reverse;
+    private boolean reverse, reverseSpeedUp, running = false;
 
     public BlockAnimation() {
     }
@@ -42,37 +42,41 @@ public class BlockAnimation {
         }
     }
 
-    public void gotoFrame(int frame) {
-        if(!runnable.isCancelled()) runnable.cancel();
-        for(BlockVector loc : getFrames().get(frame).getBlockVectors()) {
-            loc.getWorld().getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+    public boolean gotoFrame(int frame) {
+        if(!runnable.isCancelled()) {
+            runnable.cancel();
+            running = false;
         }
+        if(getFrames().get(frame) == null) return false;
+        for(BlockVector loc : getFrames().get(frame).getBlockVectors()) {
+            world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+        }
+        return true;
     }
 
     private int frame = 0, timer = 0;
-    private boolean goingReverse = false;
+    public boolean goingReverse = false;
     public void play() {
+        running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
-            System.out.println(frame);
-            if(timer == getFrames().get(frame).getDelay()) {
+            if(timer == (goingReverse ? frames.get(frame).getDelay() / 2 : frames.get(frame).getDelay())) {
                 for(BlockVector loc : getFrames().get(frame).getBlockVectors()) {
-                    loc.getWorld().getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+                    world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
                 }
                 if(!reverse) {
                     frame = frame + 1 == frames.size() ? 0 : ++frame;
                 } else {
-                    //TODO: fix start and end frames repeating twice
                     if(goingReverse) {
                         if(frame - 1 == -1) {
                             goingReverse = false;
-                            //++frame;
+                            ++frame;
                         } else {
                             --frame;
                         }
                     } else {
                         if(frame + 1 == frames.size()) {
                             goingReverse = true;
-                            //--frame;
+                            --frame;
                         } else {
                             ++frame;
                         }
@@ -86,5 +90,6 @@ public class BlockAnimation {
 
     public void stop() {
         runnable.cancel();
+        running = false;
     }
 }

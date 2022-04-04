@@ -3,6 +3,8 @@ version: 1.0.0 SNAPSHOT
 main: com.imjustdoom.justanimations.JustAnimations
 api-version: 1.18
 authors: [ JustDoom ]
+softdepend:
+  - WorldEdit
 commands:
   justanimations:
     aliases: [ ja, justanimations ]

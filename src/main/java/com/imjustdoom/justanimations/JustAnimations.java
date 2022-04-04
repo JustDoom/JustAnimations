@@ -1,8 +1,8 @@
 package com.imjustdoom.justanimations;
 
-import com.imjustdoom.justanimations.command.AnimeCommand;
-import com.imjustdoom.justanimations.command.tabcomplete.AnimeTabCompletion;
-import com.imjustdoom.justanimations.config.AnimeConfig;
+import com.imjustdoom.justanimations.command.AnimationsCommand;
+import com.imjustdoom.justanimations.command.tabcomplete.AnimationsTabCompletion;
+import com.imjustdoom.justanimations.config.AnimationsConfig;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,9 +25,9 @@ public final class JustAnimations extends JavaPlugin {
 
         saveDefaultConfig();
 
-        AnimeConfig.load();
+        AnimationsConfig.load();
 
-        this.getCommand("justanimations").setExecutor(new AnimeCommand());
-        this.getCommand("justanimations").setTabCompleter(new AnimeTabCompletion());
+        this.getCommand("justanimations").setExecutor(new AnimationsCommand());
+        this.getCommand("justanimations").setTabCompleter(new AnimationsTabCompletion());
     }
 }
