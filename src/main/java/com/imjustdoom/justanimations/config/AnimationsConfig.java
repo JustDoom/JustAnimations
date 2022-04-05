@@ -32,7 +32,6 @@ public class AnimationsConfig {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
                 File[] frames = animation.listFiles();
-                //Arrays.sort(frames);
                 for (File frame : frames) {
                     System.out.println(frame.getName());
                     if(frame.getName().startsWith("settings")) {
