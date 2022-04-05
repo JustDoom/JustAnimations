@@ -26,8 +26,8 @@ public class BlockAnimation {
         this.world = world;
     }
 
-    public void addFrame(AnimationFrame frame) {
-        frames.put(frames.size(), frame);
+    public void addFrame(int frameNumber, AnimationFrame frame) {
+        frames.put(frameNumber, frame);
     }
 
     // TODO: Add a method to remove a frame
@@ -43,13 +43,14 @@ public class BlockAnimation {
     }
 
     public boolean gotoFrame(int frame) {
-        if(!runnable.isCancelled()) {
-            runnable.cancel();
-            running = false;
+        if(!this.runnable.isCancelled()) {
+            this.runnable.cancel();
+            this.running = false;
         }
         if(getFrames().get(frame) == null) return false;
+        this.frame = frame;
         for(BlockVector loc : getFrames().get(frame).getBlockVectors()) {
-            world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
+            this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(loc.getBlockData());
         }
         return true;
     }

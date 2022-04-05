@@ -9,6 +9,7 @@ commands:
   justanimations:
     aliases: [ ja, justanimations ]
     permission-message: "You do not have permission to use this command noob"
+    permission: justanimations.admin
 permissions:
   justanimations.admin:
     default: op

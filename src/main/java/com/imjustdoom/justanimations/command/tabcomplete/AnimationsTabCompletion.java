@@ -19,33 +19,44 @@ public class AnimationsTabCompletion implements TabCompleter {
         if(args.length == 1){
             result.add("reload");
             result.add("create");
-            result.add("remove");
+            result.add("delete");
             result.addAll(JustAnimations.INSTANCE.getAnimations().keySet());
             return result;
         }
 
-        if(args[0].equalsIgnoreCase("removeanimation")){
+        if(args[0].equalsIgnoreCase("delete")){
             return new ArrayList<>(JustAnimations.INSTANCE.getAnimations().keySet());
         }
 
-        if(args.length == 2 && !args[0].equalsIgnoreCase("createanimation")
-                && !args[0].equalsIgnoreCase("removeanimation")
+        if(args.length == 2 && !args[0].equalsIgnoreCase("create")
+                && !args[0].equalsIgnoreCase("delete")
                 && !args[0].equalsIgnoreCase("reload") && JustAnimations.INSTANCE.getAnimations().get(args[0]) != null){
             result.add("addframe");
             result.add("play");
             result.add("stop");
+            result.add("settings");
             result.add("gotoframe");
-            result.add("togglereverse");
-            result.add("setworld");
+            result.add("getframe");
             return result;
         }
 
-        switch (args[1].toLowerCase()){
-            case "gotoframe":
-                if(JustAnimations.INSTANCE.getAnimations().get(args[0]) == null) return null;
-                return JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().keySet().stream().map(String::valueOf).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-            case "setworld":
-                return Bukkit.getWorlds().stream().map(WorldInfo::getName).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        if(args.length == 3) {
+            switch (args[1].toLowerCase()) {
+                case "settings":
+                    result.add("togglereverse");
+                    result.add("setworld");
+                    return result;
+            }
+        }
+
+        if(args.length == 4) {
+            switch (args[2].toLowerCase()) {
+                case "gotoframe":
+                    if (JustAnimations.INSTANCE.getAnimations().get(args[0]) == null) return null;
+                    return JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().keySet().stream().map(String::valueOf).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+                case "setworld":
+                    return Bukkit.getWorlds().stream().map(WorldInfo::getName).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            }
         }
 
         return null;
