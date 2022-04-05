@@ -22,6 +22,10 @@ public final class JustAnimations extends JavaPlugin {
         INSTANCE = this;
     }
 
+    public static JustAnimations getINSTANCE() {
+        return INSTANCE;
+    }
+
     @Override
     public void onEnable() {
 
