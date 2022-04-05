@@ -13,7 +13,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +32,9 @@ public class AnimationsConfig {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
                 File[] frames = animation.listFiles();
-                Arrays.sort(frames);
+                //Arrays.sort(frames);
                 for (File frame : frames) {
+                    System.out.println(frame.getName());
                     if(frame.getName().startsWith("settings")) {
                         FileConfiguration settings = YamlConfiguration.loadConfiguration(frame);
                         blockAnimation.setReverse(settings.getBoolean("reverse"));
@@ -48,7 +48,7 @@ public class AnimationsConfig {
                     for (String key : config.getConfigurationSection("blocks").getKeys(false)) {
                         for (String key1 : config.getConfigurationSection("blocks." + key).getKeys(false)) {
                             for (String key2 : config.getConfigurationSection("blocks." + key + "." + key1).getKeys(false)) {
-                                BlockData blockData = null;
+                                BlockData blockData;
                                 try {
                                     blockData = Bukkit.getServer().createBlockData(config.getString("blocks." + key + "." + key1 + "." + key2));
                                 } catch (Exception e) {
@@ -62,7 +62,7 @@ public class AnimationsConfig {
 
                     AnimationFrame animationFrame = new AnimationFrame(blockVectors);
                     animationFrame.setDelay(config.getInt("delay"));
-                    blockAnimation.addFrame(animationFrame);
+                    blockAnimation.addFrame(Integer.parseInt(frame.getName().replace(".yml", "")), animationFrame);
                 }
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
                 if(blockAnimation.getFrames().size() > 0) blockAnimation.play();

@@ -65,6 +65,40 @@ public class AnimationsCommand implements CommandExecutor {
         }
 
         switch (args[1].toLowerCase()) {
+            case "settings":
+                if(args.length > 2) {
+                    switch (args[2].toLowerCase()) {
+                        case "togglereverse":
+                            // TODO: add speed multiplier
+                            YamlStorage.toggleReverse(args[0], !JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
+                            JustAnimations.INSTANCE.getAnimations().get(args[0]).setGoingReverse(false);
+                            JustAnimations.INSTANCE.getAnimations().get(args[0]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
+                            sender.sendMessage("Reverse toggled to " + JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
+                            return true;
+                        case "setworld":
+                            if (args.length < 4 || Bukkit.getWorld(args[3]) == null) {
+                                sender.sendMessage("World does not exist");
+                                return true;
+                            }
+                            if (Bukkit.getWorld(args[3]).getUID().equals(JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getUID())) {
+                                sender.sendMessage("Animation is already in this world");
+                                return true;
+                            }
+                            JustAnimations.INSTANCE.getAnimations().get(args[0]).setWorld(Bukkit.getWorld(args[3]));
+                            YamlStorage.setWorld(args[0], Bukkit.getWorld(args[3]));
+                            sender.sendMessage("World set to " + args[3]);
+                            return true;
+                    }
+                }
+                sender.sendMessage("Settings for animation\nWorld: "
+                        + JustAnimations.INSTANCE.getAnimations().get(args[0].toLowerCase()).getWorld().getName()
+                        + "\nFrames: " + JustAnimations.INSTANCE.getAnimations().get(args[0].toLowerCase()).getFrames().size()
+                        + "\nRunning: " + JustAnimations.INSTANCE.getAnimations().get(args[0].toLowerCase()).isRunning() + "\nReverse: "
+                        + JustAnimations.INSTANCE.getAnimations().get(args[0].toLowerCase()).isReverse());
+                return true;
+            case "getframe":
+                sender.sendMessage("The current frame of the animation is " + JustAnimations.INSTANCE.getAnimations().get(args[0].toLowerCase()).getFrame());
+                return true;
             case "addframe":
                 org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
                 Player actor = BukkitAdapter.adapt(player);
@@ -86,61 +120,41 @@ public class AnimationsCommand implements CommandExecutor {
                 } catch (IncompleteRegionException e) {
                     e.printStackTrace();
                 }
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
+                JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
                 YamlStorage.saveFrame(args[0], config, args.length < 3 ? 20 : Integer.parseInt(args[2]));
                 sender.sendMessage("Frame added");
-                break;
+                return true;
             case "play":
                 if (JustAnimations.INSTANCE.getAnimations().get(args[0]).isRunning()) {
                     sender.sendMessage("Animation is already running");
-                    break;
+                    return true;
                 }
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).play();
                 sender.sendMessage("Animation started");
-                break;
+                return true;
             case "stop":
                 if (!JustAnimations.INSTANCE.getAnimations().get(args[0]).isRunning()) {
                     sender.sendMessage("Animation is not running");
-                    break;
+                    return true;
                 }
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).stop();
                 sender.sendMessage("Animation stopped");
-                break;
+                return true;
             case "removeframe":
                 // TODO: make this work
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).removeFrame(Integer.parseInt(args[2]));
                 sender.sendMessage("Frame removed");
-                break;
+                return true;
             case "editframe":
-                break;
+                return true;
             case "gotoframe":
                 if (!JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]))) {
                     sender.sendMessage("Frame does not exist");
-                    break;
+                    return true;
                 }
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]));
                 sender.sendMessage("Frame changed");
-                break;
-            case "togglereverse":
-                // TODO: add speed multiplier
-                YamlStorage.toggleReverse(args[0], !JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).setGoingReverse(false);
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
-                sender.sendMessage("Reverse toggled to " + JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
-                break;
-            case "setworld":
-                if(args.length < 3 || Bukkit.getWorld(args[2]) == null) {
-                    sender.sendMessage("World does not exist");
-                    break;
-                }
-                if(Bukkit.getWorld(args[2]).getUID().equals(JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getUID())) {
-                    sender.sendMessage("Animation is already in this world");
-                    break;
-                }
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).setWorld(Bukkit.getWorld(args[2]));
-                YamlStorage.setWorld(args[0], Bukkit.getWorld(args[2]));
-                sender.sendMessage("World set to " + args[2]);
-                break;
+                return true;
         }
 
 
