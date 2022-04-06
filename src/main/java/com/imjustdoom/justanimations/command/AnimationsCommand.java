@@ -1,8 +1,8 @@
 package com.imjustdoom.justanimations.command;
 
-import com.imjustdoom.justanimations.AnimationFrame;
-import com.imjustdoom.justanimations.BlockAnimation;
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.BlockAnimation;
+import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import com.imjustdoom.justanimations.storage.YamlStorage;
 import com.imjustdoom.justanimations.util.BlockVector;
@@ -14,13 +14,14 @@ import com.sk89q.worldedit.entity.Player;
 import com.sk89q.worldedit.session.SessionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnimationsCommand implements CommandExecutor {
 
@@ -104,14 +105,14 @@ public class AnimationsCommand implements CommandExecutor {
                 Player actor = BukkitAdapter.adapt(player);
                 SessionManager manager = WorldEdit.getInstance().getSessionManager();
                 LocalSession localSession = manager.get(actor);
-                List<BlockVector> frame = new ArrayList<>();
+                Map<BlockVector, BlockData> frame = new HashMap<>();
                 FileConfiguration config = YamlStorage.getFrame(args[0]);
                 try {
                     for (int i = localSession.getSelection().getMinimumPoint().getBlockX(); i <= localSession.getSelection().getMaximumPoint().getBlockX(); i++) {
                         for (int j = localSession.getSelection().getMinimumPoint().getBlockY(); j <= localSession.getSelection().getMaximumPoint().getBlockY(); j++) {
                             for (int k = localSession.getSelection().getMinimumPoint().getBlockZ(); k <= localSession.getSelection().getMaximumPoint().getBlockZ(); k++) {
                                 Block block = player.getWorld().getBlockAt(i, j, k);
-                                frame.add(new BlockVector(i, j, k, block.getBlockData()));
+                                frame.put(new BlockVector(i, j, k), block.getBlockData());
                                 config.createSection("blocks." + i + "." + j + "." + k);
                                 config.set("blocks." + i + "." + j + "." + k, block.getBlockData().getAsString());
                             }
