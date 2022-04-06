@@ -3,6 +3,7 @@ package com.imjustdoom.justanimations.animation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import org.bukkit.World;
 
+import java.io.File;
 import java.util.Map;
 
 public interface IAnimation {
@@ -32,4 +33,6 @@ public interface IAnimation {
     int getFrame();
 
     boolean isRunning();
+
+    File getAnimationDir();
 }

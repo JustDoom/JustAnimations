@@ -48,8 +48,8 @@ public class AnimationsCommand implements CommandExecutor {
                     sender.sendMessage("Animation with this name doesn't exist");
                     return true;
                 }
-                if (JustAnimations.INSTANCE.getAnimations().get(args[0]).isRunning()) {
-                    JustAnimations.INSTANCE.getAnimations().get(args[0]).stop();
+                if (JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
+                    JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
                 }
                 JustAnimations.INSTANCE.getAnimations().remove(args[1].toLowerCase());
                 YamlStorage.deleteAnimation(args[1].toLowerCase());

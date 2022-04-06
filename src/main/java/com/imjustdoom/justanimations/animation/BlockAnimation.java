@@ -119,19 +119,12 @@ public class BlockAnimation implements IAnimation {
                         if (frame - 1 == -1) {
                             goingReverse = false;
                             ++frame;
-                        } else {
-                            --frame;
-                        }
+                        } else --frame;
                     } else {
-                        if (frame + 1 ==
-
-
-                                - 1) {
+                        if (frame + 1 == - 1) {
                             goingReverse = true;
                             --frame;
-                        } else {
-                            ++frame;
-                        }
+                        } else ++frame;
                     }
                 }
 
