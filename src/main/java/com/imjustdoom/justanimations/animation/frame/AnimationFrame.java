@@ -1,6 +1,6 @@
 package com.imjustdoom.justanimations.animation.frame;
 
-import com.imjustdoom.justanimations.util.BlockVector;
+import com.imjustdoom.justanimations.api.util.BlockVector;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.block.data.BlockData;

@@ -5,7 +5,7 @@ import com.imjustdoom.justanimations.animation.BlockAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import com.imjustdoom.justanimations.storage.YamlStorage;
-import com.imjustdoom.justanimations.util.BlockVector;
+import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -157,7 +157,6 @@ public class AnimationsCommand implements CommandExecutor {
                 sender.sendMessage("Frame changed");
                 return true;
         }
-
 
         return false;
     }

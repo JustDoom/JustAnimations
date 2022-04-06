@@ -5,15 +5,14 @@ import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
 import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
-import com.imjustdoom.justanimations.util.BlockVector;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
+import com.imjustdoom.justanimations.api.util.BlockVector;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
@@ -66,30 +65,15 @@ public class BlockAnimation implements IAnimation {
         if(!animationFile.exists()) return false;
 
         this.frame = frame;
-        FileConfiguration newFrame = YamlConfiguration.loadConfiguration(animationFile);
-        Map<BlockVector, BlockData> blockVectors = new HashMap<>();
 
-        if (newFrame.contains("blocks")) {
-            for (String key : newFrame.getConfigurationSection("blocks").getKeys(false)) {
-                for (String key1 : newFrame.getConfigurationSection("blocks." + key).getKeys(false)) {
-                    for (String key2 : newFrame.getConfigurationSection("blocks." + key + "." + key1).getKeys(false)) {
-                        BlockData blockData;
-                        try {
-                            blockData = Bukkit.getServer().createBlockData(newFrame.getString("blocks." + key + "." + key1 + "." + key2));
-                        } catch (Exception e) {
-                            blockData = Material.AIR.createBlockData();
-                        }
-                        blockVectors.put(new BlockVector(Integer.valueOf(key), Integer.valueOf(key1), Integer.valueOf(key2)), blockData);
-                    }
-                }
-            }
-        }
-
-        AnimationFrame animationFrame = new AnimationFrame(blockVectors, newFrame.getInt("delay"));
+        AnimationFrame animationFrame = AnimationUtil.getFrame(this, frame);
         frames.put(frame, animationFrame);
 
-        for(BlockVector loc : animationFrame.getBlockVectors().keySet()) {
-            this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(getFrames().get(frame).getBlockVectors().get(loc));
+        for(BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
+            BlockData blockData = getFrames().get(frame).getBlockVectors().get(loc);
+            Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
+            if(block.getBlockData() == blockData) continue;
+            block.setBlockData(blockData);
         }
 
         AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
@@ -107,7 +91,10 @@ public class BlockAnimation implements IAnimation {
             if (timer == (goingReverse ? frames.get(frame).getDelay() / 2 : frames.get(frame).getDelay())) {
 
                 for(BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
-                    this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(getFrames().get(frame).getBlockVectors().get(loc));
+                    BlockData blockData = getFrames().get(frame).getBlockVectors().get(loc);
+                    Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
+                    if(block.getBlockData() == blockData) continue;
+                   block.setBlockData(blockData);
                 }
 
                 frames.remove(frame);
@@ -128,26 +115,7 @@ public class BlockAnimation implements IAnimation {
                     }
                 }
 
-                FileConfiguration newFrame = YamlConfiguration.loadConfiguration(new File(animationDir + "/" + frame + ".yml"));
-                Map<BlockVector, BlockData> blockVectors = new HashMap<>();
-
-                if (newFrame.contains("blocks")) {
-                    for (String key : newFrame.getConfigurationSection("blocks").getKeys(false)) {
-                        for (String key1 : newFrame.getConfigurationSection("blocks." + key).getKeys(false)) {
-                            for (String key2 : newFrame.getConfigurationSection("blocks." + key + "." + key1).getKeys(false)) {
-                                BlockData blockData;
-                                try {
-                                    blockData = Bukkit.getServer().createBlockData(newFrame.getString("blocks." + key + "." + key1 + "." + key2));
-                                } catch (Exception e) {
-                                    blockData = Material.AIR.createBlockData();
-                                }
-                                blockVectors.put(new BlockVector(Integer.valueOf(key), Integer.valueOf(key1), Integer.valueOf(key2)), blockData);
-                            }
-                        }
-                    }
-                }
-
-                frames.put(frame, new AnimationFrame(blockVectors, newFrame.getInt("delay")));
+                frames.put(frame, AnimationUtil.getFrame(this, frame));
 
                 AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
                 Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);

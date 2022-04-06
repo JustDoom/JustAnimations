@@ -2,7 +2,6 @@ package com.imjustdoom.justanimations.api.util;
 
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
-import com.imjustdoom.justanimations.util.BlockVector;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

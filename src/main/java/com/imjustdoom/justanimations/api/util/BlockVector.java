@@ -1,4 +1,4 @@
-package com.imjustdoom.justanimations.util;
+package com.imjustdoom.justanimations.api.util;
 
 import lombok.Getter;
 import lombok.Setter;
