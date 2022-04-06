@@ -1,5 +1,6 @@
 package com.imjustdoom.justanimations.config;
 
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.animation.BlockAnimation;
 import com.imjustdoom.justanimations.JustAnimations;
@@ -24,9 +25,14 @@ public class AnimationsConfig {
 
     public static void load() {
 
+        JustAnimations.INSTANCE.reloadConfig();
         config = JustAnimations.INSTANCE.getConfig();
 
         Settings.FRAMES_LOADED = config.getInt("settings.frames-loaded");
+
+        for(IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
+            animation.stop();
+        }
 
         JustAnimations.INSTANCE.getAnimations().clear(); // TODO: make sure it stops animations
         if(new File(YamlStorage.dataFolder).exists()) {
