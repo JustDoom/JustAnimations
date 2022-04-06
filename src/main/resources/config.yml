@@ -1,1 +1,6 @@
-messages:
+#messages:
+
+
+settings:
+  # How many frames should be loaded at once per animation
+  frames-loaded: 100
