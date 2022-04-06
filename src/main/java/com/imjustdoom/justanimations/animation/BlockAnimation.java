@@ -28,7 +28,7 @@ public class BlockAnimation implements IAnimation {
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
     private boolean reverse, reverseSpeedUp, running = false;
-    private int frameCount, loadedFrameCount;
+    private int frameCount;
     private File animationDir;
 
     public BlockAnimation() {
@@ -59,11 +59,42 @@ public class BlockAnimation implements IAnimation {
             this.runnable.cancel();
             this.running = false;
         }
-        if(getFrames().get(frame) == null) return false;
+
+        frames.remove(frame);
+
+        File animationFile = new File(animationDir + "/" + frame + ".yml");
+        if(!animationFile.exists()) return false;
+
         this.frame = frame;
-        for(BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
+        FileConfiguration newFrame = YamlConfiguration.loadConfiguration(animationFile);
+        Map<BlockVector, BlockData> blockVectors = new HashMap<>();
+
+        if (newFrame.contains("blocks")) {
+            for (String key : newFrame.getConfigurationSection("blocks").getKeys(false)) {
+                for (String key1 : newFrame.getConfigurationSection("blocks." + key).getKeys(false)) {
+                    for (String key2 : newFrame.getConfigurationSection("blocks." + key + "." + key1).getKeys(false)) {
+                        BlockData blockData;
+                        try {
+                            blockData = Bukkit.getServer().createBlockData(newFrame.getString("blocks." + key + "." + key1 + "." + key2));
+                        } catch (Exception e) {
+                            blockData = Material.AIR.createBlockData();
+                        }
+                        blockVectors.put(new BlockVector(Integer.valueOf(key), Integer.valueOf(key1), Integer.valueOf(key2)), blockData);
+                    }
+                }
+            }
+        }
+
+        AnimationFrame animationFrame = new AnimationFrame(blockVectors, newFrame.getInt("delay"));
+        frames.put(frame, animationFrame);
+
+        for(BlockVector loc : animationFrame.getBlockVectors().keySet()) {
             this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ()).setBlockData(getFrames().get(frame).getBlockVectors().get(loc));
         }
+
+        AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
+        Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);
+
         return true;
     }
 
@@ -82,7 +113,7 @@ public class BlockAnimation implements IAnimation {
                 frames.remove(frame);
 
                 if (!reverse) {
-                    frame = frame + 1 == frameCount ? 0 : ++frame;
+                    frame = frame + 1 == frameCount - 1 ? 0 : ++frame;
                 } else {
                     if (goingReverse) {
                         if (frame - 1 == -1) {
@@ -92,7 +123,10 @@ public class BlockAnimation implements IAnimation {
                             --frame;
                         }
                     } else {
-                        if (frame + 1 == frameCount) {
+                        if (frame + 1 ==
+
+
+                                - 1) {
                             goingReverse = true;
                             --frame;
                         } else {
@@ -101,14 +135,7 @@ public class BlockAnimation implements IAnimation {
                     }
                 }
 
-                Map.Entry<Integer, AnimationFrame> maxEntry = null;
-                for (Map.Entry<Integer, AnimationFrame> entry : frames.entrySet()) {
-                    if (maxEntry == null || entry.getKey() > maxEntry.getKey()) {
-                        maxEntry = entry;
-                    }
-                }
-
-                FileConfiguration newFrame = YamlConfiguration.loadConfiguration(new File(animationDir + "/" + (maxEntry.getKey() + 1) + ".yml"));
+                FileConfiguration newFrame = YamlConfiguration.loadConfiguration(new File(animationDir + "/" + frame + ".yml"));
                 Map<BlockVector, BlockData> blockVectors = new HashMap<>();
 
                 if (newFrame.contains("blocks")) {
@@ -127,7 +154,7 @@ public class BlockAnimation implements IAnimation {
                     }
                 }
 
-                frames.put(maxEntry.getKey() + 1, new AnimationFrame(blockVectors, newFrame.getInt("delay")));
+                frames.put(frame, new AnimationFrame(blockVectors, newFrame.getInt("delay")));
 
                 AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
                 Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);
