@@ -28,7 +28,10 @@ public class AnimationsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (args.length == 0) return true;
+        if(args.length == 0) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.HELP));
+            return true;
+        }
 
         switch (args[0].toLowerCase()) {
             case "reload":
@@ -61,11 +64,11 @@ public class AnimationsCommand implements CommandExecutor {
                 return true;
         }
 
-        if(!JustAnimations.INSTANCE.getAnimations().containsKey(args[0].toLowerCase())) {
-            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
-            return true;
-        } else if(args.length == 1) {
+        if(args.length == 1) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.HELP));
+            return true;
+        } else if(!JustAnimations.INSTANCE.getAnimations().containsKey(args[0].toLowerCase())) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
             return true;
         }
 
@@ -78,20 +81,25 @@ public class AnimationsCommand implements CommandExecutor {
                             YamlStorage.toggleReverse(args[0], !JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
                             JustAnimations.INSTANCE.getAnimations().get(args[0]).setGoingReverse(false);
                             JustAnimations.INSTANCE.getAnimations().get(args[0]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
-                            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.TOGGLE_REVERSE));
+                            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.TOGGLE_REVERSE,
+                                    JustAnimations.INSTANCE.getAnimations().get(args[0]),
+                                    JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse()));
                             return true;
                         case "setworld":
                             if (args.length < 4 || Bukkit.getWorld(args[3]) == null) {
-                                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_NOT_EXISTS));
+                                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_NOT_EXISTS,
+                                        JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getName()));
                                 return true;
                             }
                             if (Bukkit.getWorld(args[3]).getUID().equals(JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getUID())) {
-                                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_IN_USE));
+                                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_IN_USE,
+                                        JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getName()));
                                 return true;
                             }
                             JustAnimations.INSTANCE.getAnimations().get(args[0]).setWorld(Bukkit.getWorld(args[3]));
                             YamlStorage.setWorld(args[0], Bukkit.getWorld(args[3]));
-                            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_CHANGE));
+                            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_CHANGE,
+                                    JustAnimations.INSTANCE.getAnimations().get(args[0]).getWorld().getName()));
                             return true;
                     }
                 }
@@ -144,17 +152,23 @@ public class AnimationsCommand implements CommandExecutor {
             case "removeframe":
                 // TODO: make this work
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).removeFrame(Integer.parseInt(args[2]));
-                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.REMOVE_FRAME));
+                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.REMOVE_FRAME,
+                        JustAnimations.INSTANCE.getAnimations().get(args[0]),
+                        args[2]));
                 return true;
             case "editframe":
                 return true;
             case "gotoframe":
                 if (!JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]))) {
-                    sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS));
+                    sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
+                            JustAnimations.INSTANCE.getAnimations().get(args[0]),
+                            args[2]));
                     return true;
                 }
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]));
-                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME));
+                sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
+                        JustAnimations.INSTANCE.getAnimations().get(args[0]),
+                        args[2]));
                 return true;
         }
 

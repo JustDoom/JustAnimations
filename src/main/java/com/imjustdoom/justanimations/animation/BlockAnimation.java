@@ -23,6 +23,7 @@ import java.util.Map;
 @Setter
 public class BlockAnimation implements IAnimation {
 
+    private String name;
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
@@ -45,8 +46,8 @@ public class BlockAnimation implements IAnimation {
     public void removeFrame(int frame) {
         frames.remove(frame);
         int last = -1;
-        for(int i : frames.keySet()) {
-            if(i - 1 != last) {
+        for (int i : frames.keySet()) {
+            if (i - 1 != last) {
 
             }
             last = i;
@@ -54,25 +55,25 @@ public class BlockAnimation implements IAnimation {
     }
 
     public boolean gotoFrame(int frame) {
-        if(!this.runnable.isCancelled()) {
+        if (!this.runnable.isCancelled()) {
             this.runnable.cancel();
             this.running = false;
         }
 
-        frames.remove(frame);
+        frames.remove(this.frame);
 
         File animationFile = new File(animationDir + "/" + frame + ".yml");
-        if(!animationFile.exists()) return false;
+        if (!animationFile.exists()) return false;
 
         this.frame = frame;
 
         AnimationFrame animationFrame = AnimationUtil.getFrame(this, frame);
         frames.put(frame, animationFrame);
 
-        for(BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
-            BlockData blockData = getFrames().get(frame).getBlockVectors().get(loc);
+        for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
+            BlockData blockData = getFrames().get(this.frame).getBlockVectors().get(loc);
             Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
-            if(block.getBlockData() == blockData) continue;
+            if (block.getBlockData() == blockData) continue;
             block.setBlockData(blockData);
         }
 
@@ -84,34 +85,37 @@ public class BlockAnimation implements IAnimation {
 
     private int frame = 0, timer = 0;
     public boolean goingReverse = false;
+
     public void play() {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
             if (Bukkit.getOnlinePlayers().size() == 0) stop();
             if (timer == (goingReverse ? frames.get(frame).getDelay() / 2 : frames.get(frame).getDelay())) {
 
-                for(BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
+                for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
                     BlockData blockData = getFrames().get(frame).getBlockVectors().get(loc);
                     Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
-                    if(block.getBlockData() == blockData) continue;
-                   block.setBlockData(blockData);
+                    if (block.getBlockData() == blockData) {
+                        continue;
+                    }
+                    block.setBlockData(blockData);
                 }
 
                 frames.remove(frame);
 
                 if (!reverse) {
-                    frame = frame + 1 == frameCount - 1 ? 0 : ++frame;
+                    frame = frame + 1 == frameCount - 1 ? 0 : frame + 1;
                 } else {
                     if (goingReverse) {
                         if (frame - 1 == -1) {
                             goingReverse = false;
-                            ++frame;
-                        } else --frame;
+                            frame++;
+                        } else frame--;
                     } else {
-                        if (frame + 1 == - 1) {
+                        if (frame + 1 == -1) {
                             goingReverse = true;
-                            --frame;
-                        } else ++frame;
+                            frame--;
+                        } else frame++;
                     }
                 }
 

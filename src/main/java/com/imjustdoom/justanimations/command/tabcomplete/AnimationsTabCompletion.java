@@ -46,14 +46,20 @@ public class AnimationsTabCompletion implements TabCompleter {
                     result.add("togglereverse");
                     result.add("setworld");
                     return result;
+                case "gotoframe":
+                    if (JustAnimations.INSTANCE.getAnimations().get(args[0]) == null) return null;
+                    List<String> frames = new ArrayList<>();
+                    int i = 0;
+                    while(i <= JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrameCount() - 1){
+                        frames.add(String.valueOf(i));
+                        i++;
+                    }
+                    return frames;
             }
         }
 
         if(args.length == 4) {
             switch (args[2].toLowerCase()) {
-                case "gotoframe":
-                    if (JustAnimations.INSTANCE.getAnimations().get(args[0]) == null) return null;
-                    return JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().keySet().stream().map(String::valueOf).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
                 case "setworld":
                     return Bukkit.getWorlds().stream().map(WorldInfo::getName).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
             }

@@ -5,7 +5,7 @@ Not the textures but animate stuff with blocks. It can make for cool lobbies,
 RPG servers, and more.
 
 Basic usage:
-- /ja createanimation <name>
+- /ja create <name>
 - /ja <name> addframe <ticks/optional, default is 20>
 - /ja <name> start
 - /ja <name> stop

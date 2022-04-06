@@ -32,7 +32,11 @@ public interface IAnimation {
 
     int getFrame();
 
+    int getFrameCount();
+
     boolean isRunning();
 
     File getAnimationDir();
+
+    String getName();
 }

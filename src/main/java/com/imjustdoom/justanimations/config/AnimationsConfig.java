@@ -106,6 +106,7 @@ public class AnimationsConfig {
 
                 File settings = new File(animation.getPath() + "/settings.yml");
                 FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
+                blockAnimation.setName(animation.getName().replace(".yml", ""));
                 blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
                 blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
@@ -113,6 +114,7 @@ public class AnimationsConfig {
                 blockAnimation.addFrame(0, animationFrame);
 
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
+
                 if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
             }
         }

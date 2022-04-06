@@ -1,5 +1,6 @@
 package com.imjustdoom.justanimations.api.util;
 
+import com.imjustdoom.justanimations.animation.IAnimation;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +14,25 @@ public class TranslationUtil {
     public static Pattern HEX_PATTERN_2 = Pattern.compile("#([A-Fa-f0-9]){6}");
 
     public static String translatePlaceholders(String message) {
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+            message = PlaceholderAPI.setPlaceholders(null, message);
+
+        return translate(message);
+    }
+
+    public static String translatePlaceholders(String message, IAnimation animation, Object value) {
+        message = message.replaceAll("%animation%", animation.getName());
+        message = message.replaceAll("%value%", value.toString());
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+            message = PlaceholderAPI.setPlaceholders(null, message);
+
+        return translate(message);
+    }
+
+    public static String translatePlaceholders(String message, Object value) {
+        message = message.replaceAll("%value%", value.toString());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             message = PlaceholderAPI.setPlaceholders(null, message);
