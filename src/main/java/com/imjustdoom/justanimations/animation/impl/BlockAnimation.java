@@ -1,12 +1,14 @@
-package com.imjustdoom.justanimations.animation;
+package com.imjustdoom.justanimations.animation.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
 import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
+import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -23,19 +25,21 @@ import java.util.Map;
 @Setter
 public class BlockAnimation implements IAnimation {
 
+    private DataStore dataStore;
     private String name;
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
     private boolean reverse, reverseSpeedUp, running = false;
     private int frameCount;
-    private File animationDir;
 
     public BlockAnimation() {
     }
 
-    public BlockAnimation(World world) {
+    public BlockAnimation(World world, DataStore dataStore, String name) {
+        this.dataStore = dataStore;
         this.world = world;
+        this.name = name;
     }
 
     public void addFrame(int frameNumber, AnimationFrame frame) {
@@ -62,7 +66,7 @@ public class BlockAnimation implements IAnimation {
 
         frames.remove(this.frame);
 
-        File animationFile = new File(animationDir + "/" + frame + ".yml");
+        File animationFile = new File(dataStore.getDataFolder() + frame + ".yml");
         if (!animationFile.exists()) return false;
 
         this.frame = frame;

@@ -20,7 +20,7 @@ public class AnimationUtil {
     }
 
     public static AnimationFrame getFrame(IAnimation animation, int frame) {
-        File animationFile = new File(animation.getAnimationDir() + "/" + frame + ".yml");
+        File animationFile = new File(animation.getDataStore().getDataFolder() + "/" + frame + ".yml");
         if(!animationFile.exists()) return null;
 
         FileConfiguration newFrame = YamlConfiguration.loadConfiguration(animationFile);

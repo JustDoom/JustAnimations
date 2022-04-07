@@ -1,11 +1,11 @@
 package com.imjustdoom.justanimations.config;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.BlockAnimation;
+import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
-import com.imjustdoom.justanimations.storage.YamlStorage;
+import com.imjustdoom.justanimations.storage.impl.FileFrameStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -97,11 +97,11 @@ public class AnimationsConfig {
         }
 
         JustAnimations.INSTANCE.getAnimations().clear(); // TODO: make sure it stops animations
-        if (new File(YamlStorage.dataFolder).exists()) {
-            for (File animation : new File(YamlStorage.dataFolder).listFiles()) {
+        if (new File(JustAnimations.INSTANCE.getAnimationDataFolder()).exists()) {
+            for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
-                blockAnimation.setAnimationDir(animation);
+                blockAnimation.setDataStore(new FileFrameStorage(animation.getName()));
                 blockAnimation.setFrameCount(animation.listFiles().length);
 
                 File settings = new File(animation.getPath() + "/settings.yml");

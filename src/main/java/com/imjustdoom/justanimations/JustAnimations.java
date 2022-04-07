@@ -20,6 +20,8 @@ public final class JustAnimations extends JavaPlugin {
 
     private final Map<String, IAnimation> animations = new HashMap<>();
 
+    private final String animationDataFolder = getDataFolder() + "/data/";
+
     public JustAnimations() {
         INSTANCE = this;
     }

@@ -1,6 +1,5 @@
 package com.imjustdoom.justanimations.api.util;
 
-import com.imjustdoom.justanimations.animation.IAnimation;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +20,8 @@ public class TranslationUtil {
         return translate(message);
     }
 
-    public static String translatePlaceholders(String message, IAnimation animation, Object value) {
-        message = message.replaceAll("%animation%", animation.getName());
+    public static String translatePlaceholders(String message, String name, Object value) {
+        message = message.replaceAll("%animation%", name);
         message = message.replaceAll("%value%", value.toString());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)

@@ -1,9 +1,9 @@
 package com.imjustdoom.justanimations.animation;
 
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.storage.DataStore;
 import org.bukkit.World;
 
-import java.io.File;
 import java.util.Map;
 
 public interface IAnimation {
@@ -36,7 +36,7 @@ public interface IAnimation {
 
     boolean isRunning();
 
-    File getAnimationDir();
-
     String getName();
+
+    DataStore getDataStore();
 }
