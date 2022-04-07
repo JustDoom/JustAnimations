@@ -40,6 +40,7 @@ public class AnimationsConfig {
         public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
         public static String REMOVE_FRAME, REMOVE_FRAME_ERROR;
         public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
+        public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS;
     }
 
     public static void load() {
@@ -93,6 +94,10 @@ public class AnimationsConfig {
         Messages.GO_TO_FRAME = config.getString("messages.go-to-frame");
         Messages.GO_TO_FRAME_ERROR = config.getString("messages.go-to-frame-error");
         Messages.GO_TO_FRAME_NOT_EXISTS = config.getString("messages.go-to-frame-not-exists");
+
+        Messages.CONVERTING = config.getString("messages.converting");
+        Messages.CONVERTING_ERROR = config.getString("messages.converting-error");
+        Messages.CONVERTING_SUCCESS = config.getString("messages.converting-success");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             if (animation.getRunnable() == null) continue;
