@@ -2,7 +2,6 @@ package com.imjustdoom.justanimations.storage;
 
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 
@@ -12,7 +11,7 @@ public interface DataStore {
 
     void createAnimationData(String animation, World world);
 
-    FileConfiguration getFrame(String frame);
+    ConfigurationSection getFrame(String frame);
 
     void saveSetting(String path, Object value);
 
@@ -23,4 +22,6 @@ public interface DataStore {
     void saveFrame(String frame, ConfigurationSection section, int delay);
 
     void deleteAnimation(String animation);
+
+    int getFrameCount();
 }

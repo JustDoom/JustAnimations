@@ -6,6 +6,7 @@ import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
+import com.imjustdoom.justanimations.storage.impl.SingleFileFrameStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -102,8 +103,10 @@ public class AnimationsConfig {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
-                blockAnimation.setDataStore(new MultipleFileFrameStorage(animation.getName()));
-                blockAnimation.setFrameCount(animation.listFiles().length);
+                blockAnimation.setDataStore(new File(animation.getPath() + "/frames.yml").exists()
+                        ? new SingleFileFrameStorage(animation.getName())
+                        : new MultipleFileFrameStorage(animation.getName()));
+                blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
 
                 File settings = new File(animation.getPath() + "/settings.yml");
                 FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
@@ -111,7 +114,7 @@ public class AnimationsConfig {
                 blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
                 blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
-                AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, 0);
+                AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
                 if(animationFrame != null) blockAnimation.addFrame(0, animationFrame);
 
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);

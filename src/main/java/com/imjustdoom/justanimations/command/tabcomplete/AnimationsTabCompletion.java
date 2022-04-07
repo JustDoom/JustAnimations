@@ -28,6 +28,15 @@ public class AnimationsTabCompletion implements TabCompleter {
             return new ArrayList<>(JustAnimations.INSTANCE.getAnimations().keySet());
         }
 
+        if(args.length == 3){
+            switch (args[0].toLowerCase()){
+                case "create":
+                    result.add("singlefile");
+                    result.add("multiplefile");
+                    return result;
+            }
+        }
+
         if(args.length == 2 && !args[0].equalsIgnoreCase("create")
                 && !args[0].equalsIgnoreCase("delete")
                 && !args[0].equalsIgnoreCase("reload") && JustAnimations.INSTANCE.getAnimations().get(args[0]) != null){

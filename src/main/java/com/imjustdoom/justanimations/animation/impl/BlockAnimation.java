@@ -71,7 +71,7 @@ public class BlockAnimation implements IAnimation {
 
         this.frame = frame;
 
-        AnimationFrame animationFrame = AnimationUtil.getFrame(this, frame);
+        AnimationFrame animationFrame = AnimationUtil.getFrame(this, String.valueOf(frame));
         frames.put(frame, animationFrame);
 
         for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
@@ -109,7 +109,7 @@ public class BlockAnimation implements IAnimation {
                 frames.remove(frame);
 
                 if (!reverse) {
-                    frame = frame + 1 == frameCount - 1 ? 0 : frame + 1;
+                    frame = frame + 1 == frameCount ? 0 : frame + 1;
                 } else {
                     if (goingReverse) {
                         if (frame - 1 == -1) {
@@ -124,7 +124,7 @@ public class BlockAnimation implements IAnimation {
                     }
                 }
 
-                frames.put(frame, AnimationUtil.getFrame(this, frame));
+                frames.put(frame, AnimationUtil.getFrame(this, String.valueOf(frame)));
 
                 AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
                 Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);

@@ -8,6 +8,7 @@ import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import com.imjustdoom.justanimations.storage.DataStore;
 import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
+import com.imjustdoom.justanimations.storage.impl.SingleFileFrameStorage;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -21,6 +22,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,7 @@ public class AnimationsCommand implements CommandExecutor {
                     return true;
                 }
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE));
-                DataStore dataStore = new MultipleFileFrameStorage(args[1].toLowerCase());
+                DataStore dataStore = args.length == 2 || !args[2].equalsIgnoreCase("singlefile") ? new MultipleFileFrameStorage(args[1].toLowerCase()) : new SingleFileFrameStorage(args[1].toLowerCase());
                 JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new BlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
                 dataStore.createAnimationData(args[1].toLowerCase(), ((org.bukkit.entity.Player) sender).getWorld());
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_SUCCESS));
@@ -116,7 +118,7 @@ public class AnimationsCommand implements CommandExecutor {
                 SessionManager manager = WorldEdit.getInstance().getSessionManager();
                 LocalSession localSession = manager.get(actor);
                 Map<BlockVector, BlockData> frame = new HashMap<>();
-                ConfigurationSection section = JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().getFrame(args[0]);
+                ConfigurationSection section = new MemoryConfiguration();
                 try {
                     for (int i = localSession.getSelection().getMinimumPoint().getBlockX(); i <= localSession.getSelection().getMaximumPoint().getBlockX(); i++) {
                         for (int j = localSession.getSelection().getMinimumPoint().getBlockY(); j <= localSession.getSelection().getMaximumPoint().getBlockY(); j++) {
@@ -131,6 +133,8 @@ public class AnimationsCommand implements CommandExecutor {
                 } catch (IncompleteRegionException e) {
                     e.printStackTrace();
                 }
+
+                //TODO: stop it adding each new frame to the list on creation
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], section, args.length < 3 ? 20 : Integer.parseInt(args[2]));
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME));

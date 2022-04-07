@@ -6,10 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,11 +17,9 @@ public class AnimationUtil {
         return new Location(animation.getWorld(), vector.getX(), vector.getY(), vector.getZ());
     }
 
-    public static AnimationFrame getFrame(IAnimation animation, int frame) {
-        File animationFile = new File(animation.getDataStore().getDataFolder() + "/" + frame + ".yml");
-        if(!animationFile.exists()) return null;
-
-        FileConfiguration newFrame = YamlConfiguration.loadConfiguration(animationFile);
+    public static AnimationFrame getFrame(IAnimation animation, String frame) {
+        ConfigurationSection newFrame = animation.getDataStore().getFrame(frame);
+        if(newFrame == null) return null;
         Map<BlockVector, BlockData> blockVectors = new HashMap<>();
 
         if (newFrame.contains("blocks")) {

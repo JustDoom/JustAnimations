@@ -32,32 +32,45 @@ public class SingleFileFrameStorage implements DataStore {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
+            config.set("store-type", "single-file");
             config.save(data);
 
-            File framesFile = new File(dataFolder + "/frames.yml");
+            File framesFile = new File(dataFolder, "frames.yml");
             YamlConfiguration frames = YamlConfiguration.loadConfiguration(framesFile);
+            frames.createSection("frames");
             frames.save(framesFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public FileConfiguration getFrame(String frame) {
+    public ConfigurationSection getFrame(String frame) {
         File file = new File(dataFolder, "frames.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        return YamlConfiguration.loadConfiguration(file);
+        return config.getConfigurationSection("frames." + frame);
     }
 
     public void saveFrame(String animation, ConfigurationSection section, int delay) {
         try {
             File file = new File(dataFolder, "frames.yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-            section.set("delay", delay);
-            config.set("frames." + 0 + "." + section.getCurrentPath(), section);
+            ConfigurationSection cfgSec = config.getConfigurationSection("frames");
+            int frame = cfgSec == null ? 0 : cfgSec.getKeys(false).size();
+            cfgSec.createSection(String.valueOf(frame));
+            config.set("frames." + frame + ".delay", delay);
+            config.set("frames." + frame + ".blocks", section);
             config.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getFrameCount() {
+        File file = new File(dataFolder, "frames.yml");
+        ConfigurationSection cfgSec = YamlConfiguration.loadConfiguration(file).getConfigurationSection("frames");
+        System.out.println(cfgSec.getKeys(false).size());
+        return cfgSec == null ? 0 : cfgSec.getKeys(false).size();
     }
 
     public File getSettings() {

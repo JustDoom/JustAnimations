@@ -32,6 +32,7 @@ public class MultipleFileFrameStorage implements DataStore {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
+            config.set("store-type", "multiple-file");
             config.save(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,6 +55,11 @@ public class MultipleFileFrameStorage implements DataStore {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getFrameCount() {
+        System.out.println(new File(dataFolder).listFiles().length - 1);
+        return new File(dataFolder).listFiles().length - 1;
     }
 
     public File getSettings() {
