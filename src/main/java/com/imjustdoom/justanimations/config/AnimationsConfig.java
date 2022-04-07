@@ -97,7 +97,7 @@ public class AnimationsConfig {
             animation.stop();
         }
 
-        JustAnimations.INSTANCE.getAnimations().clear(); // TODO: make sure it stops animations
+        JustAnimations.INSTANCE.getAnimations().clear();
         if (new File(JustAnimations.INSTANCE.getAnimationDataFolder()).exists()) {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
                 BlockAnimation blockAnimation = new BlockAnimation();
@@ -114,11 +114,8 @@ public class AnimationsConfig {
                 AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, 0);
                 if(animationFrame != null) blockAnimation.addFrame(0, animationFrame);
 
-                System.out.println(blockAnimation.getFrames().size());
-
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
 
-                System.out.println("Loaded animation: " + animation.getName() + " - " + blockAnimation.getFrames().size());
                 if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
             }
         }
