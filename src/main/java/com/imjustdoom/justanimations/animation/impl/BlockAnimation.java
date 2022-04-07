@@ -93,15 +93,16 @@ public class BlockAnimation implements IAnimation {
     public void play() {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
-            if (Bukkit.getOnlinePlayers().size() == 0) stop();
+            if (Bukkit.getOnlinePlayers().size() == 0 || frames.size() == 0) {
+                stop();
+                return;
+            }
             if (timer == (goingReverse ? frames.get(frame).getDelay() / 2 : frames.get(frame).getDelay())) {
 
                 for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
                     BlockData blockData = getFrames().get(frame).getBlockVectors().get(loc);
                     Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
-                    if (block.getBlockData() == blockData) {
-                        continue;
-                    }
+                    if (block.getBlockData() == blockData) continue;
                     block.setBlockData(blockData);
                 }
 

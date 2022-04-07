@@ -4,6 +4,7 @@ import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -11,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 
 @Getter
-public class FileFrameStorage implements DataStore {
+public class MultipleFileFrameStorage implements DataStore {
 
     public final String dataFolder;
 
-    public FileFrameStorage(String animation) {
+    public MultipleFileFrameStorage(String animation) {
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + animation + "/";
     }
 
@@ -43,18 +44,20 @@ public class FileFrameStorage implements DataStore {
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    public File getSettings() {
-        return new File(dataFolder, "/settings.yml");
-    }
-
-    public void saveFrame(String animation, FileConfiguration config, int delay) {
+    public void saveFrame(String animation, ConfigurationSection section, int delay) {
         try {
             File file = new File(dataFolder, (JustAnimations.INSTANCE.getAnimations().get(animation).getFrames().size() - 1) + ".yml");
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            config.set("blocks", section);
             config.set("delay", delay);
             config.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public File getSettings() {
+        return new File(dataFolder, "/settings.yml");
     }
 
     public void saveSetting(String path, Object value) {

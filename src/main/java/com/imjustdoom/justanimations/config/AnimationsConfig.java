@@ -5,7 +5,7 @@ import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
-import com.imjustdoom.justanimations.storage.impl.FileFrameStorage;
+import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -93,6 +93,7 @@ public class AnimationsConfig {
         Messages.GO_TO_FRAME_NOT_EXISTS = config.getString("messages.go-to-frame-not-exists");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
+            if(animation.getRunnable() == null) continue;
             animation.stop();
         }
 
@@ -101,7 +102,7 @@ public class AnimationsConfig {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
                 BlockAnimation blockAnimation = new BlockAnimation();
 
-                blockAnimation.setDataStore(new FileFrameStorage(animation.getName()));
+                blockAnimation.setDataStore(new MultipleFileFrameStorage(animation.getName()));
                 blockAnimation.setFrameCount(animation.listFiles().length);
 
                 File settings = new File(animation.getPath() + "/settings.yml");
@@ -111,10 +112,13 @@ public class AnimationsConfig {
                 blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
                 AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, 0);
-                blockAnimation.addFrame(0, animationFrame);
+                if(animationFrame != null) blockAnimation.addFrame(0, animationFrame);
+
+                System.out.println(blockAnimation.getFrames().size());
 
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
 
+                System.out.println("Loaded animation: " + animation.getName() + " - " + blockAnimation.getFrames().size());
                 if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
             }
         }

@@ -1,13 +1,13 @@
 package com.imjustdoom.justanimations.command;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
+import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import com.imjustdoom.justanimations.storage.DataStore;
-import com.imjustdoom.justanimations.storage.impl.FileFrameStorage;
-import com.imjustdoom.justanimations.api.util.BlockVector;
+import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -20,7 +20,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class AnimationsCommand implements CommandExecutor {
                     return true;
                 }
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE));
-                DataStore dataStore = new FileFrameStorage(args[1].toLowerCase());
+                DataStore dataStore = new MultipleFileFrameStorage(args[1].toLowerCase());
                 JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new BlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
                 dataStore.createAnimationData(args[1].toLowerCase(), ((org.bukkit.entity.Player) sender).getWorld());
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_SUCCESS));
@@ -116,15 +116,15 @@ public class AnimationsCommand implements CommandExecutor {
                 SessionManager manager = WorldEdit.getInstance().getSessionManager();
                 LocalSession localSession = manager.get(actor);
                 Map<BlockVector, BlockData> frame = new HashMap<>();
-                FileConfiguration config = JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().getFrame(args[0]);
+                ConfigurationSection section = JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().getFrame(args[0]);
                 try {
                     for (int i = localSession.getSelection().getMinimumPoint().getBlockX(); i <= localSession.getSelection().getMaximumPoint().getBlockX(); i++) {
                         for (int j = localSession.getSelection().getMinimumPoint().getBlockY(); j <= localSession.getSelection().getMaximumPoint().getBlockY(); j++) {
                             for (int k = localSession.getSelection().getMinimumPoint().getBlockZ(); k <= localSession.getSelection().getMaximumPoint().getBlockZ(); k++) {
                                 Block block = player.getWorld().getBlockAt(i, j, k);
                                 frame.put(new BlockVector(i, j, k), block.getBlockData());
-                                config.createSection("blocks." + i + "." + j + "." + k);
-                                config.set("blocks." + i + "." + j + "." + k, block.getBlockData().getAsString());
+                                section.createSection(i + "." + j + "." + k);
+                                section.set(i + "." + j + "." + k, block.getBlockData().getAsString().replaceFirst("minecraft:", ""));
                             }
                         }
                     }
@@ -132,7 +132,7 @@ public class AnimationsCommand implements CommandExecutor {
                     e.printStackTrace();
                 }
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], config, args.length < 3 ? 20 : Integer.parseInt(args[2]));
+                JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], section, args.length < 3 ? 20 : Integer.parseInt(args[2]));
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME));
                 return true;
             case "play":

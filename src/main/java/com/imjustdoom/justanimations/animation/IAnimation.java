@@ -3,6 +3,7 @@ package com.imjustdoom.justanimations.animation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.storage.DataStore;
 import org.bukkit.World;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Map;
 
@@ -39,4 +40,6 @@ public interface IAnimation {
     String getName();
 
     DataStore getDataStore();
+
+    BukkitTask getRunnable();
 }

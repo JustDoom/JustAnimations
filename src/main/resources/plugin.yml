@@ -5,6 +5,7 @@ api-version: 1.18
 authors: [ JustDoom ]
 softdepend:
   - WorldEdit
+  - PlaceholderAPI
 commands:
   justanimations:
     aliases: [ ja, justanimations ]
