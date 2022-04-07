@@ -1,7 +1,8 @@
 package com.imjustdoom.justanimations.command;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
+import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.animation.impl.ReaderBlockAnimation;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
@@ -48,8 +49,8 @@ public class AnimationsCommand implements CommandExecutor {
                 }
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE));
                 DataStore dataStore = args.length == 2 || !args[2].equalsIgnoreCase("singlefile") ? new MultipleFileFrameStorage(args[1].toLowerCase()) : new SingleFileFrameStorage(args[1].toLowerCase());
-                JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new BlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
-                dataStore.createAnimationData(args[1].toLowerCase(), ((org.bukkit.entity.Player) sender).getWorld());
+                JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new ReaderBlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
+                dataStore.createAnimationData(args[1].toLowerCase(), ((org.bukkit.entity.Player) sender).getWorld(), args[3].toLowerCase()); // TODO: ram load thing
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_SUCCESS));
                 return true;
             case "delete":
@@ -133,8 +134,7 @@ public class AnimationsCommand implements CommandExecutor {
                     e.printStackTrace();
                 }
 
-                //TODO: stop it adding each new frame to the list on creation
-                //JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
+                if(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrameCount() == 0) JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame("0", new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], section, args.length < 3 ? 20 : Integer.parseInt(args[2]));
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME));
                 return true;

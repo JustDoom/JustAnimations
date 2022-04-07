@@ -23,7 +23,7 @@ public class SingleFileFrameStorage implements DataStore {
         this.name = animation;
     }
 
-    public void createAnimationData(String animation, World world) {
+    public void createAnimationData(String animation, World world, String frameLoad) {
         File data = new File(JustAnimations.INSTANCE.getAnimationDataFolder());
         if (!data.exists()) data.mkdir();
 
@@ -35,7 +35,7 @@ public class SingleFileFrameStorage implements DataStore {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
-            config.set("store-type", "single-file");
+            config.set("frame-load", frameLoad);
             config.save(data);
 
             File framesFile = new File(dataFolder, "frames.yml");
@@ -108,7 +108,6 @@ public class SingleFileFrameStorage implements DataStore {
 
     public DataStore convertFrames() {
 
-        System.out.println("Converting frames to multi file storage");
         File configFile = new File(dataFolder, "frames.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 

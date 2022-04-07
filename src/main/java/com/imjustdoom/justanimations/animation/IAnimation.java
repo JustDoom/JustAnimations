@@ -13,7 +13,7 @@ public interface IAnimation {
 
     void stop();
 
-    void addFrame(int frameNumber, AnimationFrame frame);
+    void addFrame(String frameNumber, AnimationFrame frame);
 
     void removeFrame(int frame);
 
@@ -35,9 +35,13 @@ public interface IAnimation {
 
     int getFrameCount();
 
+    void setFrameCount(int frameCount);
+
     boolean isRunning();
 
     String getName();
+
+    void setName(String name);
 
     DataStore getDataStore();
 

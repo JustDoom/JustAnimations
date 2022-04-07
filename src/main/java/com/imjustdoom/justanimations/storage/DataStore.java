@@ -9,7 +9,7 @@ public interface DataStore {
 
     String getDataFolder();
 
-    void createAnimationData(String animation, World world);
+    void createAnimationData(String animation, World world, String frameLoad);
 
     ConfigurationSection getFrame(String frame);
 

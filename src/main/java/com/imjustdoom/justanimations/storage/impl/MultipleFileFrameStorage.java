@@ -23,7 +23,7 @@ public class MultipleFileFrameStorage implements DataStore {
         this.name = animation;
     }
 
-    public void createAnimationData(String animation, World world) {
+    public void createAnimationData(String animation, World world, String frameLoad) {
         File data = new File(JustAnimations.INSTANCE.getAnimationDataFolder());
         if (!data.exists()) data.mkdir();
 
@@ -35,7 +35,7 @@ public class MultipleFileFrameStorage implements DataStore {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
-            config.set("store-type", "multiple-file");
+            config.set("frame-load", frameLoad);
             config.save(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +96,6 @@ public class MultipleFileFrameStorage implements DataStore {
 
     public DataStore convertFrames() {
 
-        System.out.println("Converting frames to single file storage");
         DataStore store = new SingleFileFrameStorage(name);
         File framesFile = new File(dataFolder, "frames.yml");
 
@@ -108,7 +107,6 @@ public class MultipleFileFrameStorage implements DataStore {
             frames.save(framesFile);
 
             for(int i = 0; i <= getFrameCount(); i++) {
-                System.out.println(i);
                 FileConfiguration frame = getFrame(String.valueOf(i));
                 store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"));
                 new File(dataFolder, i + ".yml").delete();

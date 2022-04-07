@@ -1,9 +1,10 @@
 package com.imjustdoom.justanimations.config;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.animation.impl.RamBlockAnimation;
+import com.imjustdoom.justanimations.animation.impl.ReaderBlockAnimation;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
 import com.imjustdoom.justanimations.storage.impl.SingleFileFrameStorage;
@@ -25,20 +26,20 @@ public class AnimationsConfig {
     }
 
     public static class Messages {
-           public static String RELOAD, RELOAD_ERROR, RELOAD_SUCCESS;
-           public static String CREATE, CREATE_ERROR, CREATE_SUCCESS, CREATE_EXISTS;
-           public static String DELETE, DELETE_ERROR, DELETE_SUCCESS, DELETE_NOT_EXISTS;
-           public static String ANIMATION_NOT_EXISTS;
-           public static String HELP;
-           public static String TOGGLE_REVERSE;
-           public static String WORLD_CHANGE, WORLD_NOT_EXISTS, WORLD_IN_USE;
-           public static String SETTINGS;
-           public static String GETFRAME;
-           public static String ADDFRAME, ADDFRAME_ERROR;
-           public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING;
-           public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
-           public static String REMOVE_FRAME, REMOVE_FRAME_ERROR;
-           public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
+        public static String RELOAD, RELOAD_ERROR, RELOAD_SUCCESS;
+        public static String CREATE, CREATE_ERROR, CREATE_SUCCESS, CREATE_EXISTS;
+        public static String DELETE, DELETE_ERROR, DELETE_SUCCESS, DELETE_NOT_EXISTS;
+        public static String ANIMATION_NOT_EXISTS;
+        public static String HELP;
+        public static String TOGGLE_REVERSE;
+        public static String WORLD_CHANGE, WORLD_NOT_EXISTS, WORLD_IN_USE;
+        public static String SETTINGS;
+        public static String GETFRAME;
+        public static String ADDFRAME, ADDFRAME_ERROR;
+        public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING;
+        public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
+        public static String REMOVE_FRAME, REMOVE_FRAME_ERROR;
+        public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
     }
 
     public static void load() {
@@ -94,28 +95,40 @@ public class AnimationsConfig {
         Messages.GO_TO_FRAME_NOT_EXISTS = config.getString("messages.go-to-frame-not-exists");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
-            if(animation.getRunnable() == null) continue;
+            if (animation.getRunnable() == null) continue;
             animation.stop();
         }
 
         JustAnimations.INSTANCE.getAnimations().clear();
         if (new File(JustAnimations.INSTANCE.getAnimationDataFolder()).exists()) {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
-                BlockAnimation blockAnimation = new BlockAnimation();
+                File settings = new File(animation.getPath() + "/settings.yml");
+                FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
+
+                IAnimation blockAnimation = settingsYml.getString("frame-load").equalsIgnoreCase("file")
+                        ? new ReaderBlockAnimation() : new RamBlockAnimation();
 
                 blockAnimation.setDataStore(new File(animation.getPath() + "/frames.yml").exists()
                         ? new SingleFileFrameStorage(animation.getName())
                         : new MultipleFileFrameStorage(animation.getName()));
                 blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
-
-                File settings = new File(animation.getPath() + "/settings.yml");
-                FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
                 blockAnimation.setName(animation.getName().replace(".yml", ""));
                 blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
                 blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
+                if(settingsYml.getString("frame-load").equalsIgnoreCase("ram")) {
+                    for (File frame : animation.listFiles()) {
+                        if (!frame.getName().endsWith(".yml")
+                                || frame.getName().startsWith("settings")
+                                || frame.getName().startsWith("frames")) continue;
+
+                        String frameName = frame.getName().replace(".yml", "");
+                        blockAnimation.addFrame(frameName, AnimationUtil.getFrame(blockAnimation, frameName));
+                    }
+                }
+
                 AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
-                if(animationFrame != null) blockAnimation.addFrame(0, animationFrame);
+                if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
 
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
 

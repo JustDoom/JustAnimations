@@ -6,7 +6,6 @@ import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
 import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
-import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
@@ -23,7 +22,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class BlockAnimation implements IAnimation {
+public class RamBlockAnimation implements IAnimation {
 
     private DataStore dataStore;
     private String name;
@@ -33,17 +32,17 @@ public class BlockAnimation implements IAnimation {
     private boolean reverse, reverseSpeedUp, running = false;
     private int frameCount;
 
-    public BlockAnimation() {
+    public RamBlockAnimation() {
     }
 
-    public BlockAnimation(World world, DataStore dataStore, String name) {
+    public RamBlockAnimation(World world, DataStore dataStore, String name) {
         this.dataStore = dataStore;
         this.world = world;
         this.name = name;
     }
 
-    public void addFrame(int frameNumber, AnimationFrame frame) {
-        frames.put(frameNumber, frame);
+    public void addFrame(String frameNumber, AnimationFrame frame) {
+        frames.put(Integer.valueOf(frameNumber), frame);
     }
 
     // TODO: Add a method to remove a frame
@@ -71,8 +70,7 @@ public class BlockAnimation implements IAnimation {
 
         this.frame = frame;
 
-        AnimationFrame animationFrame = AnimationUtil.getFrame(this, String.valueOf(frame));
-        frames.put(frame, animationFrame);
+        AnimationFrame animationFrame = frames.get(frame);
 
         for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
             BlockData blockData = getFrames().get(this.frame).getBlockVectors().get(loc);
@@ -123,8 +121,6 @@ public class BlockAnimation implements IAnimation {
                         } else frame++;
                     }
                 }
-
-                frames.put(frame, AnimationUtil.getFrame(this, String.valueOf(frame)));
 
                 AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
                 Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);

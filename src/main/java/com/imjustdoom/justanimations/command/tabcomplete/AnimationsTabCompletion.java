@@ -46,6 +46,7 @@ public class AnimationsTabCompletion implements TabCompleter {
             result.add("settings");
             result.add("gotoframe");
             result.add("getframe");
+            result.add("convert");
             return result;
         }
 
