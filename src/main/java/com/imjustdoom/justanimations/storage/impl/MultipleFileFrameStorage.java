@@ -96,6 +96,7 @@ public class MultipleFileFrameStorage implements DataStore {
 
     public DataStore convertFrames() {
 
+        System.out.println("Converting frames to single file storage");
         DataStore store = new SingleFileFrameStorage(name);
         File framesFile = new File(dataFolder, "frames.yml");
 

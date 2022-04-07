@@ -176,11 +176,13 @@ public class AnimationsCommand implements CommandExecutor {
                         args[2]));
                 return true;
             case "convert":
-                sender.sendMessage("converting...");
+                sender.sendMessage("converting... this may take a while");
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).stop();
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).setDataStore(
-                        JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().convertFrames());
-                sender.sendMessage("converted");
+                Bukkit.getScheduler().runTaskAsynchronously(JustAnimations.INSTANCE, () -> {
+                    JustAnimations.INSTANCE.getAnimations().get(args[0]).setDataStore(
+                            JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().convertFrames());
+                    sender.sendMessage("converted");
+                });
                 return true;
         }
 

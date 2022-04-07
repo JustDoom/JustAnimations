@@ -107,6 +107,8 @@ public class SingleFileFrameStorage implements DataStore {
     }
 
     public DataStore convertFrames() {
+
+        System.out.println("Converting frames to multi file storage");
         File configFile = new File(dataFolder, "frames.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
