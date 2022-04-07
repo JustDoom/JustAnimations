@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.storage.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
@@ -15,9 +16,11 @@ import java.io.IOException;
 public class MultipleFileFrameStorage implements DataStore {
 
     public final String dataFolder;
+    private final String name;
 
     public MultipleFileFrameStorage(String animation) {
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + animation + "/";
+        this.name = animation;
     }
 
     public void createAnimationData(String animation, World world) {
@@ -58,7 +61,6 @@ public class MultipleFileFrameStorage implements DataStore {
     }
 
     public int getFrameCount() {
-        System.out.println(new File(dataFolder).listFiles().length - 1);
         return new File(dataFolder).listFiles().length - 1;
     }
 
@@ -90,5 +92,33 @@ public class MultipleFileFrameStorage implements DataStore {
             }
             file.delete();
         }
+    }
+
+    public DataStore convertFrames() {
+
+        DataStore store = new SingleFileFrameStorage(name);
+        File framesFile = new File(dataFolder, "frames.yml");
+
+        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().clear();
+
+        try {
+            YamlConfiguration frames = YamlConfiguration.loadConfiguration(framesFile);
+            frames.createSection("frames");
+            frames.save(framesFile);
+
+            for(int i = 0; i <= getFrameCount(); i++) {
+                System.out.println(i);
+                FileConfiguration frame = getFrame(String.valueOf(i));
+                store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"));
+                new File(dataFolder, i + ".yml").delete();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().put(
+                0, AnimationUtil.getFrame(JustAnimations.INSTANCE.getAnimations().get(name), String.valueOf(0)));
+
+        return store;
     }
 }

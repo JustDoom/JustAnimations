@@ -24,4 +24,6 @@ public interface DataStore {
     void deleteAnimation(String animation);
 
     int getFrameCount();
+
+    DataStore convertFrames();
 }

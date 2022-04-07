@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.storage.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
@@ -15,9 +16,11 @@ import java.io.IOException;
 public class SingleFileFrameStorage implements DataStore {
 
     public final String dataFolder;
+    private final String name;
 
     public SingleFileFrameStorage(String animation) {
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + animation + "/";
+        this.name = animation;
     }
 
     public void createAnimationData(String animation, World world) {
@@ -101,5 +104,32 @@ public class SingleFileFrameStorage implements DataStore {
             }
             file.delete();
         }
+    }
+
+    public DataStore convertFrames() {
+        File configFile = new File(dataFolder, "frames.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().clear();
+
+        config.getConfigurationSection("frames").getKeys(false).forEach(key -> {
+            try {
+                File frameFile = new File(dataFolder, key + ".yml");
+                YamlConfiguration frame = YamlConfiguration.loadConfiguration(frameFile);
+                frame.createSection("blocks");
+                frame.set("blocks", config.getConfigurationSection("frames." + key + ".blocks"));
+                frame.set("delay", config.getInt("frames." + key + ".delay"));
+                frame.save(frameFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        configFile.delete();
+
+        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().put(
+                0, AnimationUtil.getFrame(JustAnimations.INSTANCE.getAnimations().get(name), String.valueOf(0)));
+
+        return new MultipleFileFrameStorage(this.name);
     }
 }

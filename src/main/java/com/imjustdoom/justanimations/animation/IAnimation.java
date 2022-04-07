@@ -41,5 +41,7 @@ public interface IAnimation {
 
     DataStore getDataStore();
 
+    void setDataStore(DataStore dataStore);
+
     BukkitTask getRunnable();
 }

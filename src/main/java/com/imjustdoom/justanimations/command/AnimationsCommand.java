@@ -1,7 +1,6 @@
 package com.imjustdoom.justanimations.command;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
@@ -135,7 +134,7 @@ public class AnimationsCommand implements CommandExecutor {
                 }
 
                 //TODO: stop it adding each new frame to the list on creation
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
+                //JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrames().size(), new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
                 JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], section, args.length < 3 ? 20 : Integer.parseInt(args[2]));
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME));
                 return true;
@@ -175,6 +174,13 @@ public class AnimationsCommand implements CommandExecutor {
                 sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
                         args[0],
                         args[2]));
+                return true;
+            case "convert":
+                sender.sendMessage("converting...");
+                JustAnimations.INSTANCE.getAnimations().get(args[0]).stop();
+                JustAnimations.INSTANCE.getAnimations().get(args[0]).setDataStore(
+                        JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().convertFrames());
+                sender.sendMessage("converted");
                 return true;
         }
 
