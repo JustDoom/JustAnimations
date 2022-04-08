@@ -21,11 +21,13 @@ public class StopCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
         if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
-            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION_NOT_RUNNING));
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION_NOT_RUNNING,
+                    args[1], ""));
             return;
         }
         JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
-        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION));
+        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION,
+                args[1], ""));
     }
 
     public String[] getPermission() {

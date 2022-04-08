@@ -20,7 +20,6 @@ public class GetFrameCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        // TODO: actually get the frame of the animation
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GETFRAME,
                 args[1], JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrame()));
     }

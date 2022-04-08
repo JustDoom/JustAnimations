@@ -7,6 +7,7 @@ import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GoToFrameCmd implements SubCommand {
@@ -20,6 +21,12 @@ public class GoToFrameCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
+        if(args.length == 3) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
+                    args[1],
+                    "invalid"));
+            return;
+        }
         if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]))) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
                     args[1],
@@ -41,7 +48,7 @@ public class GoToFrameCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return null;
+        if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return Collections.emptyList();
         List<String> frames = new ArrayList<>();
         int i = 0;
         while(i <= JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1){
