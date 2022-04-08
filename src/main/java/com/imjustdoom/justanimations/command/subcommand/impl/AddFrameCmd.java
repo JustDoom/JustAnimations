@@ -3,6 +3,7 @@ package com.imjustdoom.justanimations.command.subcommand.impl;
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.util.BlockVector;
+import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
@@ -18,10 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AddFrameCmd implements SubCommand {
 
@@ -34,6 +32,11 @@ public class AddFrameCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
+
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
+            return;
+        }
+
         org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
         Player actor = BukkitAdapter.adapt(player);
         SessionManager manager = WorldEdit.getInstance().getSessionManager();

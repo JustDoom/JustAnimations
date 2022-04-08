@@ -10,7 +10,56 @@ commands:
   justanimations:
     aliases: [ ja, justanimations ]
     permission-message: "You do not have permission to use this command noob"
-    permission: justanimations.admin
+    permission: justanimations.command
 permissions:
   justanimations.admin:
+    default: op
+    children:
+      - justanimations.command
+  justanimations.command:
+    default: op
+    children:
+      - justanimations.animation
+      - justanimations.create
+      - justanimations.delete
+      - justanimations.reload
+  justanimations.animation:
+    default: op
+    children:
+      - justanimations.addframe
+      - justanimations.convert
+      - justanimations.frameselection
+      - justanimations.getframe
+      - justanimations.gotoframe
+      - justanimations.play
+      - justanimations.stop
+      - justanimations.settings
+  justanimations.settings:
+    default: op
+    children:
+      - justanimations.setworld
+      - justanimations.togglereverse
+  justanimations.addframe:
+    default: op
+  justanimations.convert:
+    default: op
+  justanimations.delete:
+    default: op
+  justanimations.create:
+    default: op
+  justanimations.frameselection:
+    default: op
+  justanimations.getframe:
+    default: op
+  justanimations.gotoframe:
+    default: op
+  justanimations.play:
+    default: op
+  justanimations.reload:
+    default: op
+  justanimations.stop:
+    default: op
+  justanimations.setworld:
+    default: op
+  justanimations.togglereverse:
     default: op

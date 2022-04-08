@@ -1,11 +1,15 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
+import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SettingsCmd implements SubCommand {
@@ -26,6 +30,11 @@ public class SettingsCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
+
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
+            return;
+        }
+
         if(args.length == 3) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETTINGS, args[1], ""));
         } else if(args.length > 3) {
@@ -46,6 +55,9 @@ public class SettingsCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+            return Collections.emptyList();
+        }
 
         List<String> completions = new ArrayList<>();
         if(args.length > 3) {

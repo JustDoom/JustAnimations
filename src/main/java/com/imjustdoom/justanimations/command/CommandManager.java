@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.command.subcommand.impl.AnimationCmd;
 import com.imjustdoom.justanimations.command.subcommand.impl.CreateCmd;
@@ -10,8 +11,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CommandManager implements CommandExecutor, TabCompleter {
@@ -27,6 +31,11 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+            return true;
+        }
+
         if(args.length == 0) {
             sender.sendMessage("§c/justanimations reload");
         } else {
@@ -53,6 +62,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+            return Collections.emptyList();
+        }
+
         List<String> completions = new ArrayList<>();
 
         for (SubCommand subcommand : subcommands) {
@@ -64,6 +77,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         }
 
         return completions;
+    }
+
+    public String[] getPermission() {
+        return new String[]{"justanimations.command", "justanimations.admin"};
     }
 
     public List<SubCommand> getSubCommands() {
