@@ -42,7 +42,7 @@ public class AnimationCmd implements SubCommand {
             return;
         }
 
-        if(!JustAnimations.INSTANCE.getAnimations().containsKey(args[1])) {
+        if(args.length == 1 || !JustAnimations.INSTANCE.getAnimations().containsKey(args[1])) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
             return;
         }

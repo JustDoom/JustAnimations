@@ -16,6 +16,11 @@ Requires WorldEdit (Probably 7.2.10) and 1.18.2 (Maybe earlier but not tested)
 
 Discord Server: https://discord.gg/wVCSqV7ptB
 
+## Permissions
+
+- `justanimations.admin` - All permissions
+- `justanimations.command` - All commands
+
 ## What file storage should I use for my animation?
 There are two type:
 - Single file (Stores all frames in a single file)
