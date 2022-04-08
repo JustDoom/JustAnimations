@@ -4,7 +4,6 @@ import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.command.CommandManager;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import com.imjustdoom.justanimations.listener.PlayerJoinListener;
-import com.imjustdoom.justanimations.oldcommands.command.tabcomplete.AnimationsTabCompletion;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
@@ -38,7 +37,7 @@ public final class JustAnimations extends JavaPlugin {
         AnimationsConfig.load();
 
         getCommand("justanimations").setExecutor(new CommandManager());
-        getCommand("justanimations").setTabCompleter(new AnimationsTabCompletion());
+        getCommand("justanimations").setTabCompleter(new CommandManager());
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     }

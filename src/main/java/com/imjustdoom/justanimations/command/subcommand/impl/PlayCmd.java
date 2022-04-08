@@ -6,6 +6,7 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PlayCmd implements SubCommand {
@@ -19,12 +20,19 @@ public class PlayCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        if (JustAnimations.INSTANCE.getAnimations().get(args[0]).isRunning()) {
-            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION_RUNNING));
+        if (JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION_RUNNING,
+                    args[1], ""));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).play();
-        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION));
+        if(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() == 0) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION_EMPTY,
+                    args[1], ""));
+            return;
+        }
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).play();
+        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION,
+                args[1], ""));
     }
 
     public String[] getPermission() {
@@ -33,5 +41,9 @@ public class PlayCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 }

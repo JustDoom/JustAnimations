@@ -5,6 +5,7 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ReloadCmd implements SubCommand {
@@ -29,5 +30,9 @@ public class ReloadCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 }

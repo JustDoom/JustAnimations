@@ -6,6 +6,8 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DeleteCmd implements SubCommand {
@@ -43,5 +45,10 @@ public class DeleteCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        if(args.length > 2) return Collections.emptyList();
+        return new ArrayList<>(JustAnimations.INSTANCE.getAnimations().keySet());
     }
 }

@@ -36,7 +36,7 @@ public class AnimationsConfig {
         public static String SETTINGS;
         public static String GETFRAME;
         public static String ADDFRAME, ADDFRAME_ERROR;
-        public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING;
+        public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING, PLAY_ANIMATION_EMPTY;
         public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
         public static String REMOVE_FRAME, REMOVE_FRAME_ERROR;
         public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
@@ -83,6 +83,7 @@ public class AnimationsConfig {
         Messages.PLAY_ANIMATION = config.getString("messages.play-animation");
         Messages.PLAY_ANIMATION_ERROR = config.getString("messages.play-animation-error");
         Messages.PLAY_ANIMATION_RUNNING = config.getString("messages.play-animation-running");
+        Messages.PLAY_ANIMATION_EMPTY = config.getString("messages.play-animation-empty");
 
         Messages.STOP_ANIMATION = config.getString("messages.stop-animation");
         Messages.STOP_ANIMATION_ERROR = config.getString("messages.stop-animation-error");

@@ -6,6 +6,7 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ToggleReverseCmd implements SubCommand {
@@ -20,12 +21,12 @@ public class ToggleReverseCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
         // TODO: add speed multiplier
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveSetting("reverse", !JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).setGoingReverse(false);
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse());
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveSetting("reverse", !JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse());
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).setGoingReverse(false);
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse());
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.TOGGLE_REVERSE,
-                args[0],
-                JustAnimations.INSTANCE.getAnimations().get(args[0]).isReverse()));
+                args[1],
+                JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse()));
     }
 
     public String[] getPermission() {
@@ -34,5 +35,9 @@ public class ToggleReverseCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 }

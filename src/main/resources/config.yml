@@ -25,6 +25,7 @@ messages:
   play-animation: "Playing animation '%animation%'!"
   play-animation-running: "Animation '%animation%' is already running!"
   play-animation-error: "Error while playing animation '%animation%'!"
+  play-animation-empty: "The animation '%animation%' does not have any frames to play"
   stop-animation: "Stopped animation '%animation%'!"
   stop-animation-not-running: "Animation '%animation%' is not running!"
   stop-animation-error: "Error while stopping animation '%animation%'!"

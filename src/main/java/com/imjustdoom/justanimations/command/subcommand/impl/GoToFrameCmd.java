@@ -6,6 +6,7 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoToFrameCmd implements SubCommand {
@@ -19,16 +20,16 @@ public class GoToFrameCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        if (!JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]))) {
+        if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]))) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
-                    args[0],
-                    args[2]));
+                    args[1],
+                    args[3]));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).gotoFrame(Integer.parseInt(args[2]));
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
-                args[0],
-                args[2]));
+                args[1],
+                args[3]));
     }
 
     public String[] getPermission() {
@@ -37,5 +38,16 @@ public class GoToFrameCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return null;
+        List<String> frames = new ArrayList<>();
+        int i = 0;
+        while(i <= JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1){
+            frames.add(String.valueOf(i));
+            i++;
+        }
+        return frames;
     }
 }

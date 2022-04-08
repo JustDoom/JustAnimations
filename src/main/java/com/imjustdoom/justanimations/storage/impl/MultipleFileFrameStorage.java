@@ -45,6 +45,8 @@ public class MultipleFileFrameStorage implements DataStore {
     public FileConfiguration getFrame(String frame) {
         File file = new File(dataFolder, frame + ".yml");
 
+        if(!file.exists()) return null;
+
         return YamlConfiguration.loadConfiguration(file);
     }
 

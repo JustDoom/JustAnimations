@@ -32,19 +32,19 @@ public class AnimationCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        if(!JustAnimations.INSTANCE.getAnimations().containsKey(args[0])) {
+        if(!JustAnimations.INSTANCE.getAnimations().containsKey(args[1])) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
             return;
         }
-        if(args.length > 1) {
+        if(args.length > 2) {
             for(SubCommand subCommand : subCommands) {
-                if(subCommand.getName().equalsIgnoreCase(args[1])) {
+                if(subCommand.getName().equalsIgnoreCase(args[2])) {
                     subCommand.execute(sender, args);
                     return;
                 }
             }
         } else {
-            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETTINGS, args[0], ""));
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETTINGS, args[1], ""));
         }
     }
 
@@ -54,5 +54,21 @@ public class AnimationCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return subCommands;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        List<String> completions = new ArrayList<>();
+        if(args.length > 2) {
+            for(SubCommand subCommand : subCommands) {
+                if(subCommand.getName().equalsIgnoreCase(args[2])) {
+                    return subCommand.getTabCompletions(sender, args);
+                } else {
+                    completions.add(subCommand.getName());
+                }
+            }
+        } else {
+            return new ArrayList<>(JustAnimations.INSTANCE.getAnimations().keySet());
+        }
+        return completions;
     }
 }

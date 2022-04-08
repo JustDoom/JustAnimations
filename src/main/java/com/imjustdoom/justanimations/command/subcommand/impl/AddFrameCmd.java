@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +55,11 @@ public class AddFrameCmd implements SubCommand {
             e.printStackTrace();
         }
 
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).setFrameCount(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrameCount() + 1);
-        if(JustAnimations.INSTANCE.getAnimations().get(args[0]).getFrameCount() == 0) JustAnimations.INSTANCE.getAnimations().get(args[0]).addFrame("0", new AnimationFrame(frame, args.length < 3 ? 20 : Integer.parseInt(args[2])));
-        JustAnimations.INSTANCE.getAnimations().get(args[0]).getDataStore().saveFrame(args[0], section, args.length < 3 ? 20 : Integer.parseInt(args[2]));
-        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME));
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).setFrameCount(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() + 1);
+        if(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() == 0) JustAnimations.INSTANCE.getAnimations().get(args[1]).addFrame("0", new AnimationFrame(frame, args.length < 4 ? 20 : Integer.parseInt(args[3])));
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveFrame(args[1], section, args.length < 4 ? 20 : Integer.parseInt(args[3]));
+        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME,
+                args[1], JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount()));
     }
 
     public String[] getPermission() {
@@ -66,5 +68,9 @@ public class AddFrameCmd implements SubCommand {
 
     public List<SubCommand> getSubCommands() {
         return null;
+    }
+
+    public List<String> getTabCompletions(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 }

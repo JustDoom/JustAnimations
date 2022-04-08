@@ -15,4 +15,6 @@ public interface SubCommand {
     String[] getPermission();
 
     List<SubCommand> getSubCommands();
+
+    List<String> getTabCompletions(CommandSender sender, String[] args);
 }

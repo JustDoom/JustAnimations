@@ -2,15 +2,19 @@ package com.imjustdoom.justanimations.command;
 
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
-import com.imjustdoom.justanimations.command.subcommand.impl.*;
+import com.imjustdoom.justanimations.command.subcommand.impl.AnimationCmd;
+import com.imjustdoom.justanimations.command.subcommand.impl.CreateCmd;
+import com.imjustdoom.justanimations.command.subcommand.impl.DeleteCmd;
+import com.imjustdoom.justanimations.command.subcommand.impl.ReloadCmd;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final List<SubCommand> subcommands = new ArrayList<>();
 
@@ -44,6 +48,22 @@ public class CommandManager implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+
+        List<String> completions = new ArrayList<>();
+
+        for (SubCommand subcommand : subcommands) {
+            if (subcommand.getName().equalsIgnoreCase(args[0])) {
+                return subcommand.getTabCompletions(sender, args);
+            } else {
+                completions.add(subcommand.getName());
+            }
+        }
+
+        return completions;
     }
 
     public List<SubCommand> getSubCommands() {
