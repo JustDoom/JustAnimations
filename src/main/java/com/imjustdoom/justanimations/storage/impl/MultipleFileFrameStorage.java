@@ -50,7 +50,7 @@ public class MultipleFileFrameStorage implements DataStore {
 
     public void saveFrame(String animation, ConfigurationSection section, int delay) {
         try {
-            File file = new File(dataFolder, (JustAnimations.INSTANCE.getAnimations().get(animation).getFrames().size() - 1) + ".yml");
+            File file = new File(dataFolder, (JustAnimations.INSTANCE.getAnimations().get(animation).getDataStore().getFrameCount()) + ".yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             config.set("blocks", section);
             config.set("delay", delay);

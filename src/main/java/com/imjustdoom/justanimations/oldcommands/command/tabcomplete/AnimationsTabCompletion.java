@@ -1,4 +1,4 @@
-package com.imjustdoom.justanimations.command.tabcomplete;
+package com.imjustdoom.justanimations.oldcommands.command.tabcomplete;
 
 import com.imjustdoom.justanimations.JustAnimations;
 import org.bukkit.Bukkit;
