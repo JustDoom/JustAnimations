@@ -27,4 +27,6 @@ public interface DataStore {
     int getFrameCount();
 
     DataStore convertFrames(IAnimation animation);
+
+    void setFrameSetting(String frame, String path, Object value);
 }

@@ -21,6 +21,7 @@ public class SettingsCmd implements SubCommand {
         subCommands.add(new ToggleReverseCmd());
         subCommands.add(new ToggleRandomCmd());
         subCommands.add(new SetLoadCmd());
+        subCommands.add(new SetDelayCmd());
     }
 
     public String getName() {

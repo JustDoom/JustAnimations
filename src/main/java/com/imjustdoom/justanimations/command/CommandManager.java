@@ -48,7 +48,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 }
             } else {
                 for (SubCommand subcommand : subcommands) {
-                    if (subcommand.getName().equalsIgnoreCase(args[0])) {
+                    if (subcommand.getName().equalsIgnoreCase(args[0]) && PermissionUtil.hasPermission(Arrays.asList(subcommand.getPermission()), (Player) sender)) {
                         subcommand.execute(sender, args);
                         return true;
                     }

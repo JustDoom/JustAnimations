@@ -40,6 +40,9 @@ permissions:
     children:
       - justanimations.setworld
       - justanimations.togglereverse
+      - justanimations.setload
+      - justanimations.togglerandom
+      - justanimations.setdelay
   justanimations.addframe:
     default: op
   justanimations.convert:
@@ -67,4 +70,6 @@ permissions:
   justanimations.setload:
     default: op
   justanimations.togglerandom:
+    default: op
+  justanimations.setdelay:
     default: op

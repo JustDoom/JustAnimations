@@ -91,6 +91,18 @@ public class SingleFileFrameStorage implements DataStore {
         }
     }
 
+    public void setFrameSetting(String frame, String path, Object value) {
+        try {
+            File file = new File(dataFolder, "frames.yml");
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            ConfigurationSection cfgSec = config.getConfigurationSection("frames." + frame);
+            cfgSec.set(path, value);
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Object getSetting(String path) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(getSettings());
         return config.get(path);

@@ -84,6 +84,17 @@ public class MultipleFileFrameStorage implements DataStore {
         }
     }
 
+    public void setFrameSetting(String frame, String path, Object value) {
+        File file = new File(dataFolder, frame + ".yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        config.set(path, value);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Object getSetting(String path) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(getSettings());
         return config.get(path);
