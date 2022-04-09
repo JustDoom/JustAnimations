@@ -40,15 +40,15 @@ public class SetLoadCmd implements SubCommand {
             return;
         }
 
-        animation.stop();
-
-        if(animation.getSaveToRam() && args[4].equalsIgnoreCase("ram")) {
+        if(animation.getDataStore().getSetting("frame-load").toString().equalsIgnoreCase(args[4])) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETLOAD_ALREADY_SET,
                     animation.getName(), args[4]));
             return;
         }
 
-        animation.setSaveToRam(args[4].equalsIgnoreCase("ram"));
+        animation.stop();
+        animation.getFrames().clear();
+
         animation.getDataStore().saveSetting("frame-load", args[4]);
 
         JustAnimations.INSTANCE.getAnimations().remove(animation.getName());

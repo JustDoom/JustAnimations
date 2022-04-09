@@ -64,17 +64,22 @@ public class AnimationUtil {
         blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
-        System.out.println(settingsYml.getString("frame-load"));
-        if(settingsYml.getString("frame-load").equalsIgnoreCase("ram")) {
-            for (File frame : animation.listFiles()) {
-                if (!frame.getName().endsWith(".yml")
-                        || frame.getName().startsWith("settings")
-                        || frame.getName().startsWith("frames")) continue;
+        if(blockAnimation.getSaveToRam()) {
+            // TODO: combined these two?
+            if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
+                for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
+                    blockAnimation.getFrames().put(i, getFrame(blockAnimation, String.valueOf(i)));
+                }
+            } else {
+                for (File frame : animation.listFiles()) {
+                    if (!frame.getName().endsWith(".yml")
+                            || frame.getName().startsWith("settings")
+                            || frame.getName().startsWith("frames")) continue;
 
-                String frameName = frame.getName().replace(".yml", "");
-                blockAnimation.addFrame(frameName, AnimationUtil.getFrame(blockAnimation, frameName));
+                    String frameName = frame.getName().replace(".yml", "");
+                    blockAnimation.addFrame(frameName, AnimationUtil.getFrame(blockAnimation, frameName));
+                }
             }
-
         } else {
             AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
             if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
