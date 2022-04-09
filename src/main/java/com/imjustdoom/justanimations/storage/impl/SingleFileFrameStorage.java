@@ -36,6 +36,7 @@ public class SingleFileFrameStorage implements DataStore {
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
             config.set("frame-load", frameLoad);
+            config.set("random-frame", false);
             config.save(data);
 
             File framesFile = new File(dataFolder, "frames.yml");

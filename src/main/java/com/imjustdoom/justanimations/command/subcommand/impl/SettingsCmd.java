@@ -19,6 +19,7 @@ public class SettingsCmd implements SubCommand {
     public SettingsCmd() {
         subCommands.add(new SetWorldCmd());
         subCommands.add(new ToggleReverseCmd());
+        subCommands.add(new ToggleRandomCmd());
         subCommands.add(new SetLoadCmd());
     }
 

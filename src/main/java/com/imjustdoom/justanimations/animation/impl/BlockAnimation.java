@@ -5,6 +5,7 @@ import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
+import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.storage.DataStore;
@@ -29,7 +30,7 @@ public class BlockAnimation implements IAnimation {
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
-    private boolean reverse, reverseSpeedUp, saveToRam, running = false;
+    private boolean reverse, reverseSpeedUp, saveToRam, randomFrame, running = false;
     private int frameCount;
 
     public BlockAnimation() {
@@ -108,7 +109,9 @@ public class BlockAnimation implements IAnimation {
 
                 if(!saveToRam) frames.remove(frame);
 
-                if (!reverse) {
+                if(randomFrame) {
+                    frame = (int) (Math.random() * frameCount);
+                } else if (!reverse) {
                     frame = frame + 1 == frameCount ? 0 : frame + 1;
                 } else {
                     if (goingReverse) {
@@ -133,8 +136,8 @@ public class BlockAnimation implements IAnimation {
             }
             timer++;
         }, 0L, 0L);
-//        AnimationStartEvent animationStartEvent = new AnimationStartEvent(this);
-//        Bukkit.getPluginManager().callEvent(animationStartEvent);
+        AnimationStartEvent animationStartEvent = new AnimationStartEvent(this);
+        Bukkit.getPluginManager().callEvent(animationStartEvent);
     }
 
     public void stop() {
@@ -143,9 +146,5 @@ public class BlockAnimation implements IAnimation {
         running = false;
         AnimationEndEvent animationEndEvent = new AnimationEndEvent(this);
         Bukkit.getPluginManager().callEvent(animationEndEvent);
-    }
-
-    public boolean getSaveToRam() {
-        return saveToRam;
     }
 }

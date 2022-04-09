@@ -36,6 +36,7 @@ public class MultipleFileFrameStorage implements DataStore {
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
             config.set("frame-load", frameLoad);
+            config.set("random-frame", false);
             config.save(data);
         } catch (IOException e) {
             e.printStackTrace();

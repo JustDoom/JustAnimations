@@ -36,7 +36,7 @@ public class SetLoadCmd implements SubCommand {
 
         if (args.length == 4) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETLOAD,
-                    animation.getName(), animation.getSaveToRam() ? "RAM" : "FILE"));
+                    animation.getName(), animation.isSaveToRam() ? "RAM" : "FILE"));
             return;
         }
 

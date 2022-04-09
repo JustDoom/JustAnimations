@@ -43,5 +43,7 @@ messages:
   setload-error: "Error while setting load type for animation '%animation%' to %value%!"
   setload-success: "Load type for animation '%animation%' set to %value%!"
   setload-already-set: "Load type for animation '%animation%' is already set to %value%!"
+  random-error: "Error while randomizing frames for animation '%animation%'!"
+  random-success: "Toggled randomized frames for animation '%animation%' to %value%!"
 
 settings:

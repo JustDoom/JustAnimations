@@ -35,6 +35,7 @@ public class AnimationsConfig {
         public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS;
         public static String FRAME_SELECTION_SUCCESS, FRAME_SELECTION_ERROR;
         public static String SETLOAD, SETLOAD_SUCCESS, SETLOAD_ERROR, SETLOAD_ALREADY_SET;
+        public static String RANDOM_ERROR, RANDOM_SUCCESS;
     }
 
     public static void load() {
@@ -101,6 +102,9 @@ public class AnimationsConfig {
         Messages.SETLOAD_SUCCESS = config.getString("messages.setload-success");
         Messages.SETLOAD_ERROR = config.getString("messages.setload-error");
         Messages.SETLOAD_ALREADY_SET = config.getString("messages.setload-already-set");
+
+        Messages.RANDOM_SUCCESS = config.getString("messages.random-success");
+        Messages.RANDOM_ERROR = config.getString("messages.random-error");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             animation.stop();

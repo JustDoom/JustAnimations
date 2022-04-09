@@ -49,7 +49,11 @@ public interface IAnimation {
 
     BukkitTask getRunnable();
 
-    boolean getSaveToRam();
+    boolean isSaveToRam();
 
     void setSaveToRam(boolean saveToRam);
+
+    boolean isRandomFrame();
+
+    void setRandomFrame(boolean randomFrame);
 }

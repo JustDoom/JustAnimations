@@ -62,13 +62,14 @@ public class AnimationUtil {
         blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
         blockAnimation.setName(animation.getName().replace(".yml", ""));
         blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
+        blockAnimation.setRandomFrame(settingsYml.getBoolean("random-frame"));
         if(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))) == null) {
             JustAnimations.INSTANCE.getLogger().warning("World " + settingsYml.getString("world") + " not found for animation " + animation.getName());
             return null;
         }
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
-        if(blockAnimation.getSaveToRam()) {
+        if(blockAnimation.isRandomFrame()) {
             // TODO: combined these two?
             if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
                 for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
