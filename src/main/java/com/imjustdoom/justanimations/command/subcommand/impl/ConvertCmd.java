@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
@@ -31,12 +32,22 @@ public class ConvertCmd implements SubCommand {
             return;
         }
 
+        if(JustAnimations.INSTANCE.getConverting().contains(args[1])) {
+            sender.sendMessage("§cAlready converting!");
+            return;
+        }
+
         // TODO: add warning and confirmation command
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING,
                 args[1],
                 JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile"));
 
         JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
+
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+        JustAnimations.INSTANCE.getAnimations().remove(args[1]);
+
+        JustAnimations.INSTANCE.getConverting().add(animation.getName());
 
         Bukkit.getScheduler().runTaskAsynchronously(JustAnimations.INSTANCE, () -> {
 
@@ -45,9 +56,10 @@ public class ConvertCmd implements SubCommand {
 
             String path = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getDataFolder();
 
-            JustAnimations.INSTANCE.getAnimations().remove(args[1]);
             JustAnimations.INSTANCE.getAnimations().put(args[1],
                     AnimationUtil.loadAnimation(new File(path)));
+
+            JustAnimations.INSTANCE.getConverting().remove(args[1]);
 
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING_SUCCESS,
                     args[1],

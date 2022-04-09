@@ -103,7 +103,6 @@ public class AnimationsConfig {
         Messages.SETLOAD_ALREADY_SET = config.getString("messages.setload-already-set");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
-            if (animation.getRunnable() == null) continue;
             animation.stop();
         }
 

@@ -9,7 +9,9 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -18,6 +20,7 @@ public final class JustAnimations extends JavaPlugin {
     public static JustAnimations INSTANCE;
 
     private final Map<String, IAnimation> animations = new HashMap<>();
+    private final List<String> converting = new ArrayList<>();
 
     private final String animationDataFolder = getDataFolder() + "/data/";
 
