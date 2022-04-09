@@ -94,9 +94,6 @@ public class BlockAnimation implements IAnimation {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
             if (Bukkit.getOnlinePlayers().size() == 0 || frames.size() == 0) {
-                System.out.println("Stopping animation " + name + " because there are no players online or no frames");
-                System.out.println("Players online: " + Bukkit.getOnlinePlayers().size());
-                System.out.println("Frames: " + frames.size());
                 stop();
                 return;
             }
