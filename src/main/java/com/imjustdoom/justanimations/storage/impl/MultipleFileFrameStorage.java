@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.storage.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
@@ -97,12 +98,12 @@ public class MultipleFileFrameStorage implements DataStore {
         }
     }
 
-    public DataStore convertFrames() {
+    public DataStore convertFrames(IAnimation animation) {
 
         DataStore store = new SingleFileFrameStorage(name);
         File framesFile = new File(dataFolder, "frames.yml");
 
-        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().clear();
+        animation.getFrames().clear();
 
         try {
             YamlConfiguration frames = YamlConfiguration.loadConfiguration(framesFile);

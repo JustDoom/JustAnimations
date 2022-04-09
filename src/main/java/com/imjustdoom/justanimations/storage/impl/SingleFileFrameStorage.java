@@ -1,7 +1,7 @@
 package com.imjustdoom.justanimations.storage.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.api.util.AnimationUtil;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
@@ -72,7 +72,6 @@ public class SingleFileFrameStorage implements DataStore {
     public int getFrameCount() {
         File file = new File(dataFolder, "frames.yml");
         ConfigurationSection cfgSec = YamlConfiguration.loadConfiguration(file).getConfigurationSection("frames");
-        System.out.println(cfgSec.getKeys(false).size());
         return cfgSec == null ? 0 : cfgSec.getKeys(false).size();
     }
 
@@ -106,12 +105,12 @@ public class SingleFileFrameStorage implements DataStore {
         }
     }
 
-    public DataStore convertFrames() {
+    public DataStore convertFrames(IAnimation animation) {
 
         File configFile = new File(dataFolder, "frames.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().clear();
+        animation.getFrames().clear();
 
         config.getConfigurationSection("frames").getKeys(false).forEach(key -> {
             try {
@@ -127,9 +126,6 @@ public class SingleFileFrameStorage implements DataStore {
         });
 
         configFile.delete();
-
-        JustAnimations.INSTANCE.getAnimations().remove(name);
-        JustAnimations.INSTANCE.getAnimations().put(name, AnimationUtil.loadAnimation(new File(dataFolder)));
 
         return new MultipleFileFrameStorage(this.name);
     }

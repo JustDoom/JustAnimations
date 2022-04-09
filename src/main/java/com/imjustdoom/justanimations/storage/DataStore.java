@@ -1,5 +1,6 @@
 package com.imjustdoom.justanimations.storage;
 
+import com.imjustdoom.justanimations.animation.IAnimation;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -25,5 +26,5 @@ public interface DataStore {
 
     int getFrameCount();
 
-    DataStore convertFrames();
+    DataStore convertFrames(IAnimation animation);
 }

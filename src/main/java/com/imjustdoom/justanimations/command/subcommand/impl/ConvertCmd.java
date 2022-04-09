@@ -51,10 +51,10 @@ public class ConvertCmd implements SubCommand {
 
         Bukkit.getScheduler().runTaskAsynchronously(JustAnimations.INSTANCE, () -> {
 
-            JustAnimations.INSTANCE.getAnimations().get(args[1]).setDataStore(
-                    JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().convertFrames());
+            animation.setDataStore(
+                    animation.getDataStore().convertFrames(animation));
 
-            String path = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getDataFolder();
+            String path = animation.getDataStore().getDataFolder();
 
             JustAnimations.INSTANCE.getAnimations().put(args[1],
                     AnimationUtil.loadAnimation(new File(path)));
