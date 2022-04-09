@@ -14,9 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,8 +65,8 @@ public class BlockAnimation implements IAnimation {
 
         if(!saveToRam) frames.remove(this.frame);
 
-        File animationFile = new File(dataStore.getDataFolder(), frame + ".yml");
-        if (!animationFile.exists()) return false;
+        ConfigurationSection section = getDataStore().getFrame(String.valueOf(frame));
+        if (section == null) return false;
 
         this.frame = frame;
 
