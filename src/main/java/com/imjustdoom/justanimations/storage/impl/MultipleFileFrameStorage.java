@@ -63,7 +63,9 @@ public class MultipleFileFrameStorage implements DataStore {
     }
 
     public int getFrameCount() {
-        return new File(dataFolder).listFiles().length - 1;
+        File file = new File(dataFolder);
+        int count = file.listFiles().length - 1;
+        return new File(file, "frames.yml").exists() ? count - 1 : count;
     }
 
     public File getSettings() {
@@ -108,7 +110,10 @@ public class MultipleFileFrameStorage implements DataStore {
             frames.createSection("frames");
             frames.save(framesFile);
 
-            for(int i = 0; i <= getFrameCount(); i++) {
+            System.out.println("Count " + getFrameCount());
+            int count = getFrameCount() - 1;
+            for(int i = 0; i <= count; i++) {
+                System.out.println("Frame " + i);
                 FileConfiguration frame = getFrame(String.valueOf(i));
                 store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"));
                 new File(dataFolder, i + ".yml").delete();

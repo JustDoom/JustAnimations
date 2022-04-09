@@ -55,6 +55,14 @@ Cons:
 
 This one is good for smaller animations or servers with lots of ram but not so much CPU power
 
+## Animation load types
+
+There are two animation load types. ram and file.
+File loads the animation frames from the file each time it is played. and ram
+loads it from ram each time it is played.
+
+Ram is good for smaller animations and file is good for bigger animations.
+
 ## API
 
 ### Installation
