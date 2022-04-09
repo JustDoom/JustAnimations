@@ -128,8 +128,8 @@ public class SingleFileFrameStorage implements DataStore {
 
         configFile.delete();
 
-        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().put(
-                0, AnimationUtil.getFrame(JustAnimations.INSTANCE.getAnimations().get(name), String.valueOf(0)));
+        JustAnimations.INSTANCE.getAnimations().remove(name);
+        JustAnimations.INSTANCE.getAnimations().put(name, AnimationUtil.loadAnimation(new File(dataFolder)));
 
         return new MultipleFileFrameStorage(this.name);
     }

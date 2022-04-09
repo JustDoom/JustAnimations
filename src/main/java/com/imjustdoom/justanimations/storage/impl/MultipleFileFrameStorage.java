@@ -1,7 +1,6 @@
 package com.imjustdoom.justanimations.storage.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
 import org.bukkit.World;
@@ -110,10 +109,8 @@ public class MultipleFileFrameStorage implements DataStore {
             frames.createSection("frames");
             frames.save(framesFile);
 
-            System.out.println("Count " + getFrameCount());
             int count = getFrameCount() - 1;
             for(int i = 0; i <= count; i++) {
-                System.out.println("Frame " + i);
                 FileConfiguration frame = getFrame(String.valueOf(i));
                 store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"));
                 new File(dataFolder, i + ".yml").delete();
@@ -121,9 +118,6 @@ public class MultipleFileFrameStorage implements DataStore {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        JustAnimations.INSTANCE.getAnimations().get(name).getFrames().put(
-                0, AnimationUtil.getFrame(JustAnimations.INSTANCE.getAnimations().get(name), String.valueOf(0)));
 
         return store;
     }

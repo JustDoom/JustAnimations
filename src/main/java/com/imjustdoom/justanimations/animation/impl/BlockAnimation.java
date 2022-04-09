@@ -5,7 +5,6 @@ import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
-import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.storage.DataStore;
@@ -95,6 +94,9 @@ public class BlockAnimation implements IAnimation {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
             if (Bukkit.getOnlinePlayers().size() == 0 || frames.size() == 0) {
+                System.out.println("Stopping animation " + name + " because there are no players online or no frames");
+                System.out.println("Players online: " + Bukkit.getOnlinePlayers().size());
+                System.out.println("Frames: " + frames.size());
                 stop();
                 return;
             }
@@ -134,11 +136,12 @@ public class BlockAnimation implements IAnimation {
             }
             timer++;
         }, 0L, 0L);
-        AnimationStartEvent animationStartEvent = new AnimationStartEvent(this);
-        Bukkit.getPluginManager().callEvent(animationStartEvent);
+//        AnimationStartEvent animationStartEvent = new AnimationStartEvent(this);
+//        Bukkit.getPluginManager().callEvent(animationStartEvent);
     }
 
     public void stop() {
+        if(this.runnable == null) return;
         runnable.cancel();
         running = false;
         AnimationEndEvent animationEndEvent = new AnimationEndEvent(this);

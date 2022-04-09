@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -9,6 +10,7 @@ import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,10 +35,20 @@ public class ConvertCmd implements SubCommand {
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING,
                 args[1],
                 JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile"));
+
         JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
+
         Bukkit.getScheduler().runTaskAsynchronously(JustAnimations.INSTANCE, () -> {
+
             JustAnimations.INSTANCE.getAnimations().get(args[1]).setDataStore(
                     JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().convertFrames());
+
+            String path = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getDataFolder();
+
+            JustAnimations.INSTANCE.getAnimations().remove(args[1]);
+            JustAnimations.INSTANCE.getAnimations().put(args[1],
+                    AnimationUtil.loadAnimation(new File(path)));
+
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING_SUCCESS,
                     args[1],
                     JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "multiplefile" : "singlefile"));
