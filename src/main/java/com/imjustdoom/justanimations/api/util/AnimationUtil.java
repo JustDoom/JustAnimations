@@ -1,15 +1,23 @@
 package com.imjustdoom.justanimations.api.util;
 
+import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
+import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
+import com.imjustdoom.justanimations.storage.impl.SingleFileFrameStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class AnimationUtil {
 
@@ -39,5 +47,43 @@ public class AnimationUtil {
         }
 
         return new AnimationFrame(blockVectors, newFrame.getInt("delay"));
+    }
+
+    public static IAnimation loadAnimation(File animation) {
+        File settings = new File(animation.getPath(), "settings.yml");
+        FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
+
+        IAnimation blockAnimation = new BlockAnimation();
+        blockAnimation.setSaveToRam(settingsYml.getString("frame-load").equalsIgnoreCase("ram"));
+
+        blockAnimation.setDataStore(new File(animation.getPath(), "frames.yml").exists()
+                ? new SingleFileFrameStorage(animation.getName())
+                : new MultipleFileFrameStorage(animation.getName()));
+        blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
+        blockAnimation.setName(animation.getName().replace(".yml", ""));
+        blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
+        blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
+
+        System.out.println(settingsYml.getString("frame-load"));
+        if(settingsYml.getString("frame-load").equalsIgnoreCase("ram")) {
+            for (File frame : animation.listFiles()) {
+                if (!frame.getName().endsWith(".yml")
+                        || frame.getName().startsWith("settings")
+                        || frame.getName().startsWith("frames")) continue;
+
+                String frameName = frame.getName().replace(".yml", "");
+                blockAnimation.addFrame(frameName, AnimationUtil.getFrame(blockAnimation, frameName));
+            }
+
+        } else {
+            AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
+            if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
+        }
+
+        JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
+
+        if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
+
+        return blockAnimation;
     }
 }

@@ -39,5 +39,9 @@ messages:
   converting-success: "Converted animation '%animation%' to '%value%'!"
   frame-selection-success: "Your region selection is now frame %value% of animation '%animation%'!"
   frame-selection-error: "Error while setting your region selection to frame %value% of animation '%animation%'"
+  setload: "Set load type for animation '%animation%' to %value%!"
+  setload-error: "Error while setting load type for animation '%animation%' to %value%!"
+  setload-success: "Load type for animation '%animation%' set to %value%!"
+  setload-already-set: "Load type for animation '%animation%' is already set to %value%!"
 
 settings:

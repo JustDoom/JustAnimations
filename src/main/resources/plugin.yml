@@ -1,10 +1,11 @@
 name: JustAnimations
-version: 1.0.0 SNAPSHOT
+version: 1.0.0 BETA
 main: com.imjustdoom.justanimations.JustAnimations
 api-version: 1.18
 authors: [ JustDoom ]
-softdepend:
+depend:
   - WorldEdit
+softdepend:
   - PlaceholderAPI
 commands:
   justanimations:
@@ -62,4 +63,6 @@ permissions:
   justanimations.setworld:
     default: op
   justanimations.togglereverse:
+    default: op
+  justanimations.setload:
     default: op

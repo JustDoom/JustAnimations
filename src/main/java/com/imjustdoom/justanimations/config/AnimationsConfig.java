@@ -2,18 +2,10 @@ package com.imjustdoom.justanimations.config;
 
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.IAnimation;
-import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
-import com.imjustdoom.justanimations.animation.impl.RamBlockAnimation;
-import com.imjustdoom.justanimations.animation.impl.ReaderBlockAnimation;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
-import com.imjustdoom.justanimations.storage.impl.MultipleFileFrameStorage;
-import com.imjustdoom.justanimations.storage.impl.SingleFileFrameStorage;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.UUID;
 
 public class AnimationsConfig {
 
@@ -42,6 +34,7 @@ public class AnimationsConfig {
         public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
         public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS;
         public static String FRAME_SELECTION_SUCCESS, FRAME_SELECTION_ERROR;
+        public static String SETLOAD, SETLOAD_SUCCESS, SETLOAD_ERROR, SETLOAD_ALREADY_SET;
     }
 
     public static void load() {
@@ -104,6 +97,11 @@ public class AnimationsConfig {
         Messages.FRAME_SELECTION_SUCCESS = config.getString("messages.frame-selection-success");
         Messages.FRAME_SELECTION_ERROR = config.getString("messages.frame-selection-error");
 
+        Messages.SETLOAD = config.getString("messages.setload");
+        Messages.SETLOAD_SUCCESS = config.getString("messages.setload-success");
+        Messages.SETLOAD_ERROR = config.getString("messages.setload-error");
+        Messages.SETLOAD_ALREADY_SET = config.getString("messages.setload-already-set");
+
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             if (animation.getRunnable() == null) continue;
             animation.stop();
@@ -112,37 +110,7 @@ public class AnimationsConfig {
         JustAnimations.INSTANCE.getAnimations().clear();
         if (new File(JustAnimations.INSTANCE.getAnimationDataFolder()).exists()) {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
-                File settings = new File(animation.getPath() + "/settings.yml");
-                FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
-
-                IAnimation blockAnimation = settingsYml.getString("frame-load").equalsIgnoreCase("file")
-                        ? new ReaderBlockAnimation() : new RamBlockAnimation();
-
-                blockAnimation.setDataStore(new File(animation.getPath() + "/frames.yml").exists()
-                        ? new SingleFileFrameStorage(animation.getName())
-                        : new MultipleFileFrameStorage(animation.getName()));
-                blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
-                blockAnimation.setName(animation.getName().replace(".yml", ""));
-                blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
-                blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
-
-                if(settingsYml.getString("frame-load").equalsIgnoreCase("ram")) {
-                    for (File frame : animation.listFiles()) {
-                        if (!frame.getName().endsWith(".yml")
-                                || frame.getName().startsWith("settings")
-                                || frame.getName().startsWith("frames")) continue;
-
-                        String frameName = frame.getName().replace(".yml", "");
-                        blockAnimation.addFrame(frameName, AnimationUtil.getFrame(blockAnimation, frameName));
-                    }
-                }
-
-                AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
-                if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
-
-                JustAnimations.INSTANCE.getAnimations().put(animation.getName(), blockAnimation);
-
-                if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
+                AnimationUtil.loadAnimation(animation);
             }
         }
     }

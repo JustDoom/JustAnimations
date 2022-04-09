@@ -48,4 +48,8 @@ public interface IAnimation {
     void setDataStore(DataStore dataStore);
 
     BukkitTask getRunnable();
+
+    boolean getSaveToRam();
+
+    void setSaveToRam(boolean saveToRam);
 }

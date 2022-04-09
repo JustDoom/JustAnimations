@@ -1,7 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
-import com.imjustdoom.justanimations.animation.impl.ReaderBlockAnimation;
+import com.imjustdoom.justanimations.animation.impl.BlockAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -46,7 +46,7 @@ public class CreateCmd implements SubCommand {
         DataStore dataStore = args.length == 2 || !args[2].equalsIgnoreCase("singlefile") ? new MultipleFileFrameStorage(args[1].toLowerCase()) : new SingleFileFrameStorage(args[1].toLowerCase());
         String frameLoad = args.length > 3 ? args[3].toLowerCase() : "file";
         dataStore.createAnimationData(args[1].toLowerCase(), ((org.bukkit.entity.Player) sender).getWorld(), frameLoad); // TODO: ram load thing
-        JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new ReaderBlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
+        JustAnimations.INSTANCE.getAnimations().put(args[1].toLowerCase(), new BlockAnimation(((org.bukkit.entity.Player) sender).getWorld(), dataStore, args[1].toLowerCase()));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_SUCCESS));
     }
 

@@ -6,6 +6,7 @@ import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.api.events.AnimationEndEvent;
 import com.imjustdoom.justanimations.api.events.AnimationFrameChangeEvent;
 import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.storage.DataStore;
 import lombok.Getter;
@@ -22,20 +23,20 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class RamBlockAnimation implements IAnimation {
+public class BlockAnimation implements IAnimation {
 
     private DataStore dataStore;
     private String name;
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
-    private boolean reverse, reverseSpeedUp, running = false;
+    private boolean reverse, reverseSpeedUp, saveToRam, running = false;
     private int frameCount;
 
-    public RamBlockAnimation() {
+    public BlockAnimation() {
     }
 
-    public RamBlockAnimation(World world, DataStore dataStore, String name) {
+    public BlockAnimation(World world, DataStore dataStore, String name) {
         this.dataStore = dataStore;
         this.world = world;
         this.name = name;
@@ -63,14 +64,17 @@ public class RamBlockAnimation implements IAnimation {
             this.running = false;
         }
 
-        frames.remove(this.frame);
+        if(!saveToRam) frames.remove(this.frame);
 
-        File animationFile = new File(dataStore.getDataFolder() + frame + ".yml");
+        File animationFile = new File(dataStore.getDataFolder(), frame + ".yml");
         if (!animationFile.exists()) return false;
 
         this.frame = frame;
 
-        AnimationFrame animationFrame = frames.get(frame);
+        if(!saveToRam) {
+            AnimationFrame animationFrame = AnimationUtil.getFrame(this, String.valueOf(frame));
+            frames.put(frame, animationFrame);
+        }
 
         for (BlockVector loc : getFrames().get(frame).getBlockVectors().keySet()) {
             BlockData blockData = getFrames().get(this.frame).getBlockVectors().get(loc);
@@ -87,7 +91,6 @@ public class RamBlockAnimation implements IAnimation {
 
     private int frame = 0, timer = 0;
     public boolean goingReverse = false;
-
     public void play() {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
@@ -104,7 +107,7 @@ public class RamBlockAnimation implements IAnimation {
                     block.setBlockData(blockData);
                 }
 
-                frames.remove(frame);
+                if(!saveToRam) frames.remove(frame);
 
                 if (!reverse) {
                     frame = frame + 1 == frameCount ? 0 : frame + 1;
@@ -122,6 +125,8 @@ public class RamBlockAnimation implements IAnimation {
                     }
                 }
 
+                if(!saveToRam) frames.put(frame, AnimationUtil.getFrame(this, String.valueOf(frame)));
+
                 AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
                 Bukkit.getPluginManager().callEvent(animationFrameChangeEvent);
 
@@ -138,5 +143,9 @@ public class RamBlockAnimation implements IAnimation {
         running = false;
         AnimationEndEvent animationEndEvent = new AnimationEndEvent(this);
         Bukkit.getPluginManager().callEvent(animationEndEvent);
+    }
+
+    public boolean getSaveToRam() {
+        return saveToRam;
     }
 }
