@@ -6,9 +6,9 @@ RPG servers, and more.
 
 Basic usage:
 - /ja create <name>
-- /ja animation <name> addframe <ticks/optional, default is 20>
-- /ja animation <name> start
-- /ja animation <name> stop
+- /ja animation {name} addframe <ticks/optional, default is 20>
+- /ja animation {name} start
+- /ja animation {name} stop
 
 To create a frame use worldedit and select an area, the selected area will be the frame
 
