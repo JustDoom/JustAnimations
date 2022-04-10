@@ -50,6 +50,7 @@ public class SetDelayCmd implements SubCommand {
                 AnimationUtil.loadAnimation(new File(path)));
 
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_CHANGE,
+                args[1],
                 JustAnimations.INSTANCE.getAnimations().get(args[1]).getWorld().getName()));
     }
 

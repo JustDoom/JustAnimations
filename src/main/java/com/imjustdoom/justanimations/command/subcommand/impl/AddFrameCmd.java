@@ -2,6 +2,7 @@ package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
+import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
@@ -19,6 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 
+import java.io.File;
 import java.util.*;
 
 public class AddFrameCmd implements SubCommand {
@@ -61,6 +63,14 @@ public class AddFrameCmd implements SubCommand {
         JustAnimations.INSTANCE.getAnimations().get(args[1]).setFrameCount(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() + 1);
         if(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() == 0) JustAnimations.INSTANCE.getAnimations().get(args[1]).addFrame("0", new AnimationFrame(frame, args.length < 4 ? 20 : Integer.parseInt(args[3])));
         JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveFrame(args[1], section, args.length < 4 ? 20 : Integer.parseInt(args[3]));
+
+        JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
+
+        String path = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getDataFolder();
+        JustAnimations.INSTANCE.getAnimations().remove(args[1]);
+        JustAnimations.INSTANCE.getAnimations().put(args[1],
+                AnimationUtil.loadAnimation(new File(path)));
+
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME,
                 args[1], JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount()));
     }
