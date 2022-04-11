@@ -113,7 +113,6 @@ public class AnimationsConfig {
         JustAnimations.INSTANCE.getAnimations().clear();
         if (new File(JustAnimations.INSTANCE.getAnimationDataFolder()).exists()) {
             for (File animation : new File(JustAnimations.INSTANCE.getAnimationDataFolder()).listFiles()) {
-                System.out.println("load");
                 JustAnimations.INSTANCE.getAnimations().put(animation.getName(), AnimationUtil.loadAnimation(animation));
             }
         }
