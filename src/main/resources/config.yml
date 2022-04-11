@@ -45,5 +45,9 @@ messages:
   setload-already-set: "Load type for animation '%animation%' is already set to %value%!"
   random-error: "Error while randomizing frames for animation '%animation%'!"
   random-success: "Toggled randomized frames for animation '%animation%' to %value%!"
+  rename-success: "Renamed animation '%animation%' to '%value%'!"
+  rename-error: "Error while renaming animation '%animation%' to '%value%'!"
+  rename-exists: "An animation with this name already exists!"
+  rename-no-value: "You must specify a new name for the animation!"
 
 settings:

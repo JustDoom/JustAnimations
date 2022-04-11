@@ -35,6 +35,7 @@ permissions:
       - justanimations.play
       - justanimations.stop
       - justanimations.settings
+      - justanimations.rename
   justanimations.settings:
     default: op
     children:
@@ -72,4 +73,6 @@ permissions:
   justanimations.togglerandom:
     default: op
   justanimations.setdelay:
+    default: op
+  justanimations.rename:
     default: op

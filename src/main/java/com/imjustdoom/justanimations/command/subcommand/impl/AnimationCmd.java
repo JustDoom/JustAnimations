@@ -27,6 +27,7 @@ public class AnimationCmd implements SubCommand {
         subCommands.add(new GoToFrameCmd());
         subCommands.add(new FrameSelectionCmd());
         subCommands.add(new AnimationReloadCmd());
+        subCommands.add(new RenameCmd());
     }
 
     public String getName() {

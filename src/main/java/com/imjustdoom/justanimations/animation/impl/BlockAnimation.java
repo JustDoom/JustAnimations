@@ -167,4 +167,9 @@ public class BlockAnimation implements IAnimation {
         AnimationUtil.getFrames(this, new File(dataStore.getDataFolder()));
         if(running) play();
     }
+
+    public void setName(String name) {
+        this.name = name;
+        dataStore.setName(name);
+    }
 }

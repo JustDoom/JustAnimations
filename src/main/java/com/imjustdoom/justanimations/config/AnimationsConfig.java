@@ -36,6 +36,7 @@ public class AnimationsConfig {
         public static String FRAME_SELECTION_SUCCESS, FRAME_SELECTION_ERROR;
         public static String SETLOAD, SETLOAD_SUCCESS, SETLOAD_ERROR, SETLOAD_ALREADY_SET;
         public static String RANDOM_ERROR, RANDOM_SUCCESS;
+        public static String RENAME_SUCCESS, RENAME_ERROR, RENAME_EXISTS, RENAME_NO_VALUE;
     }
 
     public static void load() {
@@ -105,6 +106,11 @@ public class AnimationsConfig {
 
         Messages.RANDOM_SUCCESS = config.getString("messages.random-success");
         Messages.RANDOM_ERROR = config.getString("messages.random-error");
+
+        Messages.RENAME_SUCCESS = config.getString("messages.rename-success");
+        Messages.RENAME_ERROR = config.getString("messages.rename-error");
+        Messages.RENAME_EXISTS = config.getString("messages.rename-exists");
+        Messages.RENAME_NO_VALUE = config.getString("messages.rename-no-value");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             animation.stop();
