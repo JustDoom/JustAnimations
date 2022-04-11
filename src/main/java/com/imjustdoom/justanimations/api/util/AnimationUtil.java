@@ -68,12 +68,19 @@ public class AnimationUtil {
             return null;
         }
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
+        getFrames(blockAnimation, animation);
+
+        if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
+
+        return blockAnimation;
+    }
+
+    public static void getFrames(IAnimation blockAnimation, File animation) {
         if(!blockAnimation.isRandomFrame()) {
             // TODO: combined these two?
             if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
                 for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
                     blockAnimation.getFrames().put(i, getFrame(blockAnimation, String.valueOf(i)));
-                    System.out.println("Loaded frame " + i);
                 }
             } else {
                 for (File frame : animation.listFiles()) {
@@ -89,9 +96,5 @@ public class AnimationUtil {
             AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
             if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
         }
-
-        if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
-
-        return blockAnimation;
     }
 }

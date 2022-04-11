@@ -160,10 +160,11 @@ public class BlockAnimation implements IAnimation {
     public void reload() {
         boolean running = this.running;
         stop();
-        frames.clear();
-        timer = frame = 0;
-        goingReverse = false;
-        frames = AnimationUtil.loadAnimation(new File(dataStore.getDataFolder())).getFrames();
+        this.frames.clear();
+        this.timer = this.frame = 0;
+        this.goingReverse = false;
+        this.running = false;
+        AnimationUtil.getFrames(this, new File(dataStore.getDataFolder()));
         if(running) play();
     }
 }
