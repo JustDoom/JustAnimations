@@ -44,7 +44,6 @@ public class GoToFrameCmd implements SubCommand {
                     args[3]));
             return;
         }
-        animation.gotoFrame(Integer.parseInt(args[3]));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
                 args[1],
                 args[3]));

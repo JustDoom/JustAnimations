@@ -44,8 +44,13 @@ public class BlockAnimation implements IAnimation {
     }
 
     public void addFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section) {
-        getDataStore().saveFrame(name, section, frame.getDelay());
+        getDataStore().saveFrame(name, section, frame.getDelay(), String.valueOf(getFrameCount()));
         frameCount++;
+        if(saveToRam || frames.size() == 0) frames.put(Integer.valueOf(frameNumber), frame);
+    }
+
+    public void editFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section) {
+        getDataStore().saveFrame(name, section, frame.getDelay(), frameNumber);
         if(saveToRam || frames.size() == 0) frames.put(Integer.valueOf(frameNumber), frame);
     }
 
@@ -66,20 +71,15 @@ public class BlockAnimation implements IAnimation {
     }
 
     public boolean gotoFrame(int frame) {
-        if (!this.runnable.isCancelled()) {
-            this.runnable.cancel();
-            this.running = false;
-        }
+        stop();
 
         if(!saveToRam) frames.remove(this.frame);
-
-        ConfigurationSection section = getDataStore().getFrame(String.valueOf(frame));
-        if (section == null) return false;
 
         this.frame = frame;
 
         if(!saveToRam) {
             AnimationFrame animationFrame = AnimationUtil.getFrame(this, String.valueOf(frame));
+            if(animationFrame == null) return false;
             frames.put(frame, animationFrame);
         }
 
@@ -164,12 +164,12 @@ public class BlockAnimation implements IAnimation {
         this.timer = this.frame = 0;
         this.goingReverse = false;
         this.running = false;
-        AnimationUtil.getFrames(this, new File(dataStore.getDataFolder()));
+        AnimationUtil.getFrames(this, new File(this.dataStore.getDataFolder()));
         if(running) play();
     }
 
     public void setName(String name) {
         this.name = name;
-        dataStore.setName(name);
+        this.dataStore.setName(name);
     }
 }

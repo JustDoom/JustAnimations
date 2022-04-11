@@ -18,6 +18,8 @@ public interface IAnimation {
 
     void addFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section);
 
+    void editFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section);
+
     void removeFrame(int frame);
 
     boolean gotoFrame(int frame);

@@ -51,9 +51,9 @@ public class MultipleFileFrameStorage implements DataStore {
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    public void saveFrame(String animation, ConfigurationSection section, int delay) {
+    public void saveFrame(String animation, ConfigurationSection section, int delay, String frame) {
         try {
-            File file = new File(dataFolder, (JustAnimations.INSTANCE.getAnimations().get(animation).getDataStore().getFrameCount()) + ".yml");
+            File file = new File(dataFolder, frame + ".yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             config.set("blocks", section);
             config.set("delay", delay);
@@ -125,7 +125,7 @@ public class MultipleFileFrameStorage implements DataStore {
             int count = getFrameCount() - 1;
             for(int i = 0; i <= count; i++) {
                 FileConfiguration frame = getFrame(String.valueOf(i));
-                store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"));
+                store.saveFrame(name, frame.getConfigurationSection("blocks"), frame.getInt("delay"), String.valueOf(i));
                 new File(dataFolder, i + ".yml").delete();
             }
         } catch (IOException e) {

@@ -3,7 +3,6 @@ package com.imjustdoom.justanimations.command.subcommand.impl;
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
-import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
@@ -21,17 +20,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 
-import java.io.File;
 import java.util.*;
 
-public class AddFrameCmd implements SubCommand {
+public class EditFrameCmd implements SubCommand {
 
     public String getName() {
-        return "addframe";
+        return "editframe";
     }
 
     public String getDescription() {
-        return "Adds a frame to an animation";
+        return "Edits a frame of an animation";
     }
 
     public void execute(CommandSender sender, String[] args) {
@@ -63,15 +61,16 @@ public class AddFrameCmd implements SubCommand {
             e.printStackTrace();
         }
 
-        AnimationFrame animationFrame = new AnimationFrame(frame, args.length < 4 ? 20 : Integer.parseInt(args[3]));
-        animation.addFrame(String.valueOf(animation.getFrameCount()), animationFrame, section);
+        AnimationFrame animationFrame = new AnimationFrame(frame,
+                args.length < 5 ? animation.getDataStore().getFrame(args[3]).getInt("delay") : Integer.parseInt(args[4]));
+        animation.editFrame(args[3], animationFrame, section);
 
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ADDFRAME,
                 args[1], JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1));
     }
 
     public String[] getPermission() {
-        return new String[]{"justanimations.addframe", "justanimations.admin"};
+        return new String[]{"justanimations.editframe", "justanimations.admin"};
     }
 
     public List<SubCommand> getSubCommands() {
@@ -79,6 +78,16 @@ public class AddFrameCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        return Collections.emptyList();
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
+            return Collections.emptyList();
+        }
+        if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return Collections.emptyList();
+        List<String> frames = new ArrayList<>();
+        int i = 0;
+        while(i <= JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1){
+            frames.add(String.valueOf(i));
+            i++;
+        }
+        return frames;
     }
 }

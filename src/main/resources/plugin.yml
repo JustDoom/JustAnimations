@@ -28,6 +28,7 @@ permissions:
     default: op
     children:
       - justanimations.addframe
+      - justanimations.editframe
       - justanimations.convert
       - justanimations.frameselection
       - justanimations.getframe
@@ -45,6 +46,8 @@ permissions:
       - justanimations.togglerandom
       - justanimations.setdelay
   justanimations.addframe:
+    default: op
+  justanimations.editframe:
     default: op
   justanimations.convert:
     default: op

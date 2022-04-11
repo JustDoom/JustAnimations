@@ -37,33 +37,27 @@ public class ConvertCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
         // TODO: add warning and confirmation command and make code better
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING,
                 args[1],
-                JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile"));
+                animation.getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile"));
 
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
-
-        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
-        JustAnimations.INSTANCE.getAnimations().remove(args[1]);
+        animation.stop();
 
         JustAnimations.INSTANCE.getConverting().add(animation.getName());
 
         Bukkit.getScheduler().runTaskAsynchronously(JustAnimations.INSTANCE, () -> {
 
-            animation.setDataStore(
-                    animation.getDataStore().convertFrames(animation));
-
-            String path = animation.getDataStore().getDataFolder();
-
-            JustAnimations.INSTANCE.getAnimations().put(args[1],
-                    AnimationUtil.loadAnimation(new File(path)));
+            animation.setDataStore(animation.getDataStore().convertFrames(animation));
+            animation.reload();
 
             JustAnimations.INSTANCE.getConverting().remove(args[1]);
 
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING_SUCCESS,
                     args[1],
-                    JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "multiplefile" : "singlefile"));
+                    animation.getDataStore() instanceof MultipleFileFrameStorage ? "multiplefile" : "singlefile"));
         });
     }
 

@@ -20,7 +20,7 @@ public interface DataStore {
 
     Object getSetting(String path);
 
-    void saveFrame(String frame, ConfigurationSection section, int delay);
+    void saveFrame(String animation, ConfigurationSection section, int delay, String frame);
 
     void deleteAnimation(String animation);
 

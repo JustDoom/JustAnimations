@@ -55,12 +55,12 @@ public class SingleFileFrameStorage implements DataStore {
         return config.getConfigurationSection("frames." + frame);
     }
 
-    public void saveFrame(String animation, ConfigurationSection section, int delay) {
+    public void saveFrame(String animation, ConfigurationSection section, int delay, String frame) {
         try {
             File file = new File(dataFolder, "frames.yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
             ConfigurationSection cfgSec = config.getConfigurationSection("frames");
-            int frame = cfgSec == null ? 0 : cfgSec.getKeys(false).size();
+            //int frame = cfgSec == null ? 0 : cfgSec.getKeys(false).size();
             cfgSec.createSection(String.valueOf(frame));
             config.set("frames." + frame + ".delay", delay);
             config.set("frames." + frame + ".blocks", section);
