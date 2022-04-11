@@ -68,18 +68,14 @@ public class AnimationUtil {
             return null;
         }
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
-
-        System.out.println("Is random: " + blockAnimation.isRandomFrame());
         if(!blockAnimation.isRandomFrame()) {
             // TODO: combined these two?
             if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
-                System.out.println("Single file");
                 for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
                     blockAnimation.getFrames().put(i, getFrame(blockAnimation, String.valueOf(i)));
                     System.out.println("Loaded frame " + i);
                 }
             } else {
-                System.out.println("Multiple file");
                 for (File frame : animation.listFiles()) {
                     if (!frame.getName().endsWith(".yml")
                             || frame.getName().startsWith("settings")
@@ -87,12 +83,9 @@ public class AnimationUtil {
 
                     String frameName = frame.getName().replace(".yml", "");
                     blockAnimation.addFrame(frameName, getFrame(blockAnimation, frameName));
-
-                    System.out.println("Loaded frame " + frameName);
                 }
             }
         } else {
-            System.out.println("Random frame");
             AnimationFrame animationFrame = AnimationUtil.getFrame(blockAnimation, "0");
             if (animationFrame != null) blockAnimation.addFrame("0", animationFrame);
         }
@@ -100,13 +93,5 @@ public class AnimationUtil {
         if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
 
         return blockAnimation;
-    }
-
-    public static void reloadAnimation(IAnimation animation) {
-        String path = animation.getDataStore().getDataFolder();
-        String name = animation.getName();
-        JustAnimations.INSTANCE.getAnimations().remove(name);
-        JustAnimations.INSTANCE.getAnimations().put(name,
-                AnimationUtil.loadAnimation(new File(path)));
     }
 }
