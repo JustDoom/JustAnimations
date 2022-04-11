@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -28,18 +29,19 @@ public class PlayCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
-        if (JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
+        if (animation.isRunning()) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION_RUNNING,
                     args[1], ""));
             return;
         }
-        if(JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() == 0) {
+        if(animation.getFrameCount() == 0) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION_EMPTY,
                     args[1], ""));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).play();
+        animation.play();
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION,
                 args[1], ""));
     }

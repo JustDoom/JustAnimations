@@ -41,7 +41,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         } else {
             if(JustAnimations.INSTANCE.getAnimations().containsKey(args[0])) {
                 for(SubCommand subcommand : subcommands) { // TODO: probably a better way to do this
-                    if(subcommand.getName().equalsIgnoreCase("animation")) {
+                    if(subcommand.getName().equalsIgnoreCase("animation") && PermissionUtil.hasPermission(Arrays.asList(subcommand.getPermission()), (Player) sender)) {
                         subcommand.execute(sender, args);
                         return true;
                     }

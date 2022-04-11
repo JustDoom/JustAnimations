@@ -3,6 +3,7 @@ package com.imjustdoom.justanimations.animation;
 import com.imjustdoom.justanimations.animation.frame.AnimationFrame;
 import com.imjustdoom.justanimations.storage.DataStore;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Map;
@@ -14,6 +15,8 @@ public interface IAnimation {
     void stop();
 
     void addFrame(String frameNumber, AnimationFrame frame);
+
+    void addFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section);
 
     void removeFrame(int frame);
 
@@ -56,4 +59,6 @@ public interface IAnimation {
     boolean isRandomFrame();
 
     void setRandomFrame(boolean randomFrame);
+
+    void reload();
 }

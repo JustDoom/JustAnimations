@@ -15,8 +15,8 @@ import java.io.IOException;
 @Getter
 public class MultipleFileFrameStorage implements DataStore {
 
-    public final String dataFolder;
-    private final String name;
+    public String dataFolder;
+    private String name;
 
     public MultipleFileFrameStorage(String animation) {
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + animation + "/";
@@ -133,5 +133,12 @@ public class MultipleFileFrameStorage implements DataStore {
         }
 
         return store;
+    }
+
+    public void setName(String name) {
+        //TODO: test
+        new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));
+        this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + name + "/";
+        this.name = name;
     }
 }

@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -27,11 +28,13 @@ public class ToggleRandomCmd implements SubCommand {
             return;
         }
 
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveSetting("random-frame", !JustAnimations.INSTANCE.getAnimations().get(args[1]).isRandomFrame());
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).setRandomFrame(!JustAnimations.INSTANCE.getAnimations().get(args[1]).isRandomFrame());
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
+        animation.getDataStore().saveSetting("random-frame", !animation.isRandomFrame());
+        animation.setRandomFrame(!JustAnimations.INSTANCE.getAnimations().get(args[1]).isRandomFrame());
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.RANDOM_SUCCESS,
                 args[1],
-                JustAnimations.INSTANCE.getAnimations().get(args[1]).isRandomFrame()));
+                animation.isRandomFrame()));
     }
 
     public String[] getPermission() {

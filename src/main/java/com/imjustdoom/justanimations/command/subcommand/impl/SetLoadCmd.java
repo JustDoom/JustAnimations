@@ -51,9 +51,7 @@ public class SetLoadCmd implements SubCommand {
 
         animation.getDataStore().saveSetting("frame-load", args[4]);
 
-        JustAnimations.INSTANCE.getAnimations().remove(animation.getName());
-        JustAnimations.INSTANCE.getAnimations().put(animation.getName(), AnimationUtil.loadAnimation(
-                new File(JustAnimations.INSTANCE.getAnimationDataFolder(), animation.getName())));
+        animation.reload();
 
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETLOAD_SUCCESS,
                 animation.getName(), args[4]));

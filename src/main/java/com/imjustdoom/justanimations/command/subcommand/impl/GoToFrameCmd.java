@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -29,6 +30,7 @@ public class GoToFrameCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
         if(args.length == 3) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
@@ -36,13 +38,13 @@ public class GoToFrameCmd implements SubCommand {
                     "invalid"));
             return;
         }
-        if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]))) {
+        if (!animation.gotoFrame(Integer.parseInt(args[3]))) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
                     args[1],
                     args[3]));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]));
+        animation.gotoFrame(Integer.parseInt(args[3]));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
                 args[1],
                 args[3]));

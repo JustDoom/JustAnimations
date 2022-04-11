@@ -42,12 +42,7 @@ public class SetDelayCmd implements SubCommand {
 
         animation.getDataStore().setFrameSetting(args[4], "delay", delay);
 
-        String path = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getDataFolder();
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
-
-        JustAnimations.INSTANCE.getAnimations().remove(args[1]);
-        JustAnimations.INSTANCE.getAnimations().put(args[1],
-                AnimationUtil.loadAnimation(new File(path)));
+        animation.reload();
 
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_CHANGE,
                 args[1],

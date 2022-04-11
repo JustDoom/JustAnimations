@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -27,13 +28,15 @@ public class ToggleReverseCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
         // TODO: add speed multiplier
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveSetting("reverse", !JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse());
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).setGoingReverse(false);
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).setReverse(!JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse());
+        animation.getDataStore().saveSetting("reverse", !animation.isReverse());
+        animation.setGoingReverse(false);
+        animation.setReverse(!animation.isReverse());
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.TOGGLE_REVERSE,
                 args[1],
-                JustAnimations.INSTANCE.getAnimations().get(args[1]).isReverse()));
+                animation.isReverse()));
     }
 
     public String[] getPermission() {

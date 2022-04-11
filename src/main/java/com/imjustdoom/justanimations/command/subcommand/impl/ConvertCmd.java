@@ -37,7 +37,7 @@ public class ConvertCmd implements SubCommand {
             return;
         }
 
-        // TODO: add warning and confirmation command
+        // TODO: add warning and confirmation command and make code better
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING,
                 args[1],
                 JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile"));

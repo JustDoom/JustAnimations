@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -31,13 +32,15 @@ public class FrameSelectionCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
         if(args.length == 3) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
                     args[1],
                     "invalid"));
             return;
         }
-        if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).gotoFrame(Integer.parseInt(args[3]))) {
+        if (!animation.gotoFrame(Integer.parseInt(args[3]))) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME_NOT_EXISTS,
                     args[1],
                     args[3]));
@@ -47,30 +50,30 @@ public class FrameSelectionCmd implements SubCommand {
         int z1, z2, x1, x2, y1 , y2;
         String x2Section, y2Section, z2Section, x1Section, y1Section, z1Section;
 
-        DataStore animation = JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore();
+        DataStore animationStore = animation.getDataStore();
 
-        Set<String> x1SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getKeys(false);
+        Set<String> x1SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getKeys(false);
         x1Section = new ArrayList<>(x1SectionSet).get(x1SectionSet.size() - 1);
         x1 = Integer.parseInt(x1Section);
 
-        Set<String> y1SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x1Section).getKeys(false);
+        Set<String> y1SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x1Section).getKeys(false);
         y1Section = new ArrayList<>(y1SectionSet).get(y1SectionSet.size() - 1);
         y1 = Integer.parseInt(y1Section);
 
-        Set<String> z1SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x1Section).getConfigurationSection(y1Section).getKeys(false);
+        Set<String> z1SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x1Section).getConfigurationSection(y1Section).getKeys(false);
         z1Section = new ArrayList<>(z1SectionSet).get(z1SectionSet.size() - 1);
         z1 = Integer.parseInt(z1Section);
         
 
-        Set<String> x2SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getKeys(false);
+        Set<String> x2SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getKeys(false);
         x2Section = new ArrayList<>(x2SectionSet).get(0);
         x2 = Integer.parseInt(x2Section);
 
-        Set<String> y2SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x2Section).getKeys(false);
+        Set<String> y2SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x2Section).getKeys(false);
         y2Section = new ArrayList<>(y2SectionSet).get(0);
         y2 = Integer.parseInt(y2Section);
 
-        Set<String> z2SectionSet = animation.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x2Section).getConfigurationSection(y2Section).getKeys(false);
+        Set<String> z2SectionSet = animationStore.getFrame(args[3]).getConfigurationSection("blocks").getConfigurationSection(x2Section).getConfigurationSection(y2Section).getKeys(false);
         z2Section = new ArrayList<>(z2SectionSet).get(0);
         z2 = Integer.parseInt(z2Section);
 

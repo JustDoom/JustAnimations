@@ -18,6 +18,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,8 +43,14 @@ public class BlockAnimation implements IAnimation {
         this.name = name;
     }
 
+    public void addFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section) {
+        getDataStore().saveFrame(name, section, frame.getDelay());
+        frameCount++;
+        if(saveToRam || frames.size() == 0) frames.put(Integer.valueOf(frameNumber), frame);
+    }
+
     public void addFrame(String frameNumber, AnimationFrame frame) {
-        frames.put(Integer.valueOf(frameNumber), frame);
+        if(saveToRam || frames.size() == 0) frames.put(Integer.valueOf(frameNumber), frame);
     }
 
     // TODO: Add a method to remove a frame
@@ -141,10 +148,22 @@ public class BlockAnimation implements IAnimation {
     }
 
     public void stop() {
-        if(this.runnable == null) return;
+        if(this.runnable == null || !this.running) return;
         runnable.cancel();
         running = false;
         AnimationEndEvent animationEndEvent = new AnimationEndEvent(this);
         Bukkit.getPluginManager().callEvent(animationEndEvent);
+    }
+
+
+    //TODO: account for animation renaming, probably just warn it cant be found and to reload the whole plugin
+    public void reload() {
+        boolean running = this.running;
+        stop();
+        frames.clear();
+        timer = frame = 0;
+        goingReverse = false;
+        frames = AnimationUtil.loadAnimation(new File(dataStore.getDataFolder())).getFrames();
+        if(running) play();
     }
 }

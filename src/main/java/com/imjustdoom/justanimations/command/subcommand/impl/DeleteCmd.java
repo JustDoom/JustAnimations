@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -33,15 +34,16 @@ public class DeleteCmd implements SubCommand {
             sender.sendMessage("Please specify an animation to delete");
             return;
         }
-        if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) {
+
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
+        if (animation == null) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELETE_NOT_EXISTS));
             return;
         }
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELETE));
-        if (JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
-            JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
-        }
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().deleteAnimation(args[1].toLowerCase());
+        animation.stop();
+        animation.getDataStore().deleteAnimation(args[1].toLowerCase());
         JustAnimations.INSTANCE.getAnimations().remove(args[1].toLowerCase());
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELETE_SUCCESS));
     }

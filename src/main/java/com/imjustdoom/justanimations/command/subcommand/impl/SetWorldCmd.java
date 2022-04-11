@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -31,20 +32,22 @@ public class SetWorldCmd implements SubCommand {
             return;
         }
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
         if (args.length == 4 || Bukkit.getWorld(args[4]) == null) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_NOT_EXISTS,
-                    JustAnimations.INSTANCE.getAnimations().get(args[1]).getWorld().getName())); // TODO: make this not say the world name of animation when no world is input
+                    animation.getWorld().getName())); // TODO: make this not say the world name of animation when no world is input
             return;
         }
         if (Bukkit.getWorld(args[4]).getUID().equals(JustAnimations.INSTANCE.getAnimations().get(args[1]).getWorld().getUID())) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_IN_USE,
-                    JustAnimations.INSTANCE.getAnimations().get(args[1]).getWorld().getName()));
+                    animation.getWorld().getName()));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).setWorld(Bukkit.getWorld(args[4]));
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().saveSetting("world", Bukkit.getWorld(args[4]).getUID().toString());
+        animation.setWorld(Bukkit.getWorld(args[4]));
+        animation.getDataStore().saveSetting("world", Bukkit.getWorld(args[4]).getUID().toString());
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_CHANGE,
-                JustAnimations.INSTANCE.getAnimations().get(args[1]).getWorld().getName()));
+                animation.getWorld().getName()));
     }
 
     public String[] getPermission() {

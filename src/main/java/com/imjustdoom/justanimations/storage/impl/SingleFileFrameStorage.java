@@ -15,8 +15,8 @@ import java.io.IOException;
 @Getter
 public class SingleFileFrameStorage implements DataStore {
 
-    public final String dataFolder;
-    private final String name;
+    public String dataFolder;
+    private String name;
 
     public SingleFileFrameStorage(String animation) {
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + animation + "/";
@@ -141,5 +141,12 @@ public class SingleFileFrameStorage implements DataStore {
         configFile.delete();
 
         return new MultipleFileFrameStorage(this.name);
+    }
+
+    public void setName(String name) {
+        //TODO: test
+        new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));
+        this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + name + "/";
+        this.name = name;
     }
 }

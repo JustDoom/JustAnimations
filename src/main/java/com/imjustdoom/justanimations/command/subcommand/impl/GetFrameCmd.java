@@ -27,7 +27,6 @@ public class GetFrameCmd implements SubCommand {
             return;
         }
 
-
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GETFRAME,
                 args[1], JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrame()));
     }

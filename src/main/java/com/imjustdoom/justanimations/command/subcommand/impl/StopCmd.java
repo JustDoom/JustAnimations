@@ -1,6 +1,7 @@
 package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
+import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -27,12 +28,14 @@ public class StopCmd implements SubCommand {
             return;
         }
 
-        if (!JustAnimations.INSTANCE.getAnimations().get(args[1]).isRunning()) {
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
+        if (!animation.isRunning()) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION_NOT_RUNNING,
                     args[1], ""));
             return;
         }
-        JustAnimations.INSTANCE.getAnimations().get(args[1]).stop();
+        animation.stop();
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION,
                 args[1], ""));
     }
