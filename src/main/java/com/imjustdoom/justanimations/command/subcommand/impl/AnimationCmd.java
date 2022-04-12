@@ -22,6 +22,7 @@ public class AnimationCmd implements SubCommand {
         subCommands.add(new GetFrameCmd());
         subCommands.add(new AddFrameCmd());
         subCommands.add(new EditFrameCmd());
+        subCommands.add(new RemoveFrameCmd());
         subCommands.add(new PlayCmd());
         subCommands.add(new StopCmd());
         subCommands.add(new ConvertCmd());

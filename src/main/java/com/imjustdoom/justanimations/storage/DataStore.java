@@ -31,4 +31,6 @@ public interface DataStore {
     void setFrameSetting(String frame, String path, Object value);
 
     void setName(String name);
+
+    void removeFrame(String frame);
 }

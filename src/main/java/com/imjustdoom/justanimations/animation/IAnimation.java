@@ -20,8 +20,6 @@ public interface IAnimation {
 
     void editFrame(String frameNumber, AnimationFrame frame, ConfigurationSection section);
 
-    void removeFrame(int frame);
-
     boolean gotoFrame(int frame);
 
     boolean isReverse();

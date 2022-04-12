@@ -58,18 +58,6 @@ public class BlockAnimation implements IAnimation {
         if(saveToRam || frames.size() == 0) frames.put(Integer.valueOf(frameNumber), frame);
     }
 
-    // TODO: Add a method to remove a frame
-    public void removeFrame(int frame) {
-        frames.remove(frame);
-        int last = -1;
-        for (int i : frames.keySet()) {
-            if (i - 1 != last) {
-
-            }
-            last = i;
-        }
-    }
-
     public boolean gotoFrame(int frame) {
         stop();
 
@@ -164,6 +152,7 @@ public class BlockAnimation implements IAnimation {
         this.timer = this.frame = 0;
         this.goingReverse = false;
         this.running = false;
+        this.setFrameCount(dataStore.getFrameCount());
         AnimationUtil.getFrames(this, new File(this.dataStore.getDataFolder()));
         if(running) play();
     }

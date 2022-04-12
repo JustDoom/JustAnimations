@@ -143,8 +143,24 @@ public class SingleFileFrameStorage implements DataStore {
         return new MultipleFileFrameStorage(this.name);
     }
 
+    public void removeFrame(String frame) {
+        File file = new File(dataFolder, "frames.yml");
+        FileConfiguration frames = YamlConfiguration.loadConfiguration(file);
+        int j = Integer.parseInt(frame) + 1;
+        for(int i = j; i < getFrameCount(); i++) {
+            //new File(dataFolder, i + ".yml").renameTo(new File(dataFolder, (i - 1) + ".yml"));
+            frames.set("frames." + i, frames.getConfigurationSection("frames." + (i + 1)));
+            j = i;
+        }
+        frames.set("frames." + j, null);
+        try {
+            frames.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setName(String name) {
-        //TODO: test
         new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + name + "/";
         this.name = name;

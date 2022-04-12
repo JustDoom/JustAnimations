@@ -135,6 +135,14 @@ public class MultipleFileFrameStorage implements DataStore {
         return store;
     }
 
+    public void removeFrame(String frame) {
+        File file = new File(dataFolder, frame + ".yml");
+        file.delete();
+        for(int i = Integer.parseInt(frame) + 1; i <= getFrameCount(); i++) {
+            new File(dataFolder, i + ".yml").renameTo(new File(dataFolder, (i - 1) + ".yml"));
+        }
+    }
+
     public void setName(String name) {
         //TODO: test
         new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));

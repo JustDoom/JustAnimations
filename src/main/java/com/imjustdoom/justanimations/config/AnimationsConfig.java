@@ -30,13 +30,13 @@ public class AnimationsConfig {
         public static String ADDFRAME, ADDFRAME_ERROR;
         public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING, PLAY_ANIMATION_EMPTY;
         public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
-        public static String REMOVE_FRAME, REMOVE_FRAME_ERROR;
         public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
         public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS;
         public static String FRAME_SELECTION_SUCCESS, FRAME_SELECTION_ERROR;
         public static String SETLOAD, SETLOAD_SUCCESS, SETLOAD_ERROR, SETLOAD_ALREADY_SET;
         public static String RANDOM_ERROR, RANDOM_SUCCESS;
         public static String RENAME_SUCCESS, RENAME_ERROR, RENAME_EXISTS, RENAME_NO_VALUE;
+        public static String REMOVE, REMOVE_SUCCESS, REMOVE_ERROR, REMOVE_NOT_EXISTS;
     }
 
     public static void load() {
@@ -85,9 +85,6 @@ public class AnimationsConfig {
         Messages.STOP_ANIMATION_ERROR = config.getString("messages.stop-animation-error");
         Messages.STOP_ANIMATION_NOT_RUNNING = config.getString("messages.stop-animation-not-running");
 
-        Messages.REMOVE_FRAME = config.getString("messages.remove-frame");
-        Messages.REMOVE_FRAME_ERROR = config.getString("messages.remove-frame-error");
-
         Messages.GO_TO_FRAME = config.getString("messages.go-to-frame");
         Messages.GO_TO_FRAME_ERROR = config.getString("messages.go-to-frame-error");
         Messages.GO_TO_FRAME_NOT_EXISTS = config.getString("messages.go-to-frame-not-exists");
@@ -111,6 +108,11 @@ public class AnimationsConfig {
         Messages.RENAME_ERROR = config.getString("messages.rename-error");
         Messages.RENAME_EXISTS = config.getString("messages.rename-exists");
         Messages.RENAME_NO_VALUE = config.getString("messages.rename-no-value");
+
+        Messages.REMOVE = config.getString("messages.remove");
+        Messages.REMOVE_SUCCESS = config.getString("messages.remove-success");
+        Messages.REMOVE_ERROR = config.getString("messages.remove-error");
+        Messages.REMOVE_NOT_EXISTS = config.getString("messages.remove-not-exists");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             animation.stop();

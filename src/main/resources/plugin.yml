@@ -37,6 +37,7 @@ permissions:
       - justanimations.stop
       - justanimations.settings
       - justanimations.rename
+      - justanimations.removeframe
   justanimations.settings:
     default: op
     children:
@@ -78,4 +79,6 @@ permissions:
   justanimations.setdelay:
     default: op
   justanimations.rename:
+    default: op
+  justanimations.removeframe:
     default: op
