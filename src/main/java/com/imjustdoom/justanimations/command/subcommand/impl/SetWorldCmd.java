@@ -34,7 +34,12 @@ public class SetWorldCmd implements SubCommand {
 
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
-        if (args.length == 4 || Bukkit.getWorld(args[4]) == null) {
+        if (args.length == 4) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_NO_VALUE,
+                    animation.getWorld().getName()));
+            return;
+        }
+        if (Bukkit.getWorld(args[4]) == null) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.WORLD_NOT_EXISTS,
                     animation.getWorld().getName())); // TODO: make this not say the world name of animation when no world is input
             return;

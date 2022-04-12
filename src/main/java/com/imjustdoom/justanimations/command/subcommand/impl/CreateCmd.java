@@ -35,7 +35,7 @@ public class CreateCmd implements SubCommand {
         }
 
         if(args.length == 1) {
-            sender.sendMessage("Please specify a name for the animation");
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_INVALID));
             return;
         }
         if (JustAnimations.INSTANCE.getAnimations().get(args[1]) != null) {

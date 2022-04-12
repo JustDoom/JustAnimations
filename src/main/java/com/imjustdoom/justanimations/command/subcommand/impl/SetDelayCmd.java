@@ -33,11 +33,25 @@ public class SetDelayCmd implements SubCommand {
         }
 
         if (args.length == 4) {
-            sender.sendMessage("Please specify a valid frame and delay value");
+            sender.sendMessage(TranslationUtil.translatePlaceholders(
+                    AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELAY_NO_FRAME));
             return;
         }
 
-        int delay = args.length == 5 ? 20 : Integer.parseInt(args[5]);
+        if(JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getFrame(args[4]) == null) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX +
+                    AnimationsConfig.Messages.DELAY_NOT_EXISTS, args[1], args[4]));
+            return;
+        }
+
+        if (args.length == 5) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(
+                    AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELAY_NO_VALUE,
+                    JustAnimations.INSTANCE.getAnimations().get(args[1]).getDataStore().getFrame(args[4]).getInt("delay")));
+            return;
+        }
+
+        int delay = Integer.parseInt(args[5]);
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
         animation.getDataStore().setFrameSetting(args[4], "delay", delay);

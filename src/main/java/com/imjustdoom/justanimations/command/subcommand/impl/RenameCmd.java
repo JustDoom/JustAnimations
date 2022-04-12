@@ -48,7 +48,7 @@ public class RenameCmd implements SubCommand {
         JustAnimations.INSTANCE.getAnimations().remove(args[1]);
         JustAnimations.INSTANCE.getAnimations().put(animation.getName(), animation);
 
-        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.GO_TO_FRAME,
+        sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.RENAME_SUCCESS,
                 args[1],
                 args[3]));
     }

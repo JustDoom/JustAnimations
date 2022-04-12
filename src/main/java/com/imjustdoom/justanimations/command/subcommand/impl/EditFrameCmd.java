@@ -39,6 +39,12 @@ public class EditFrameCmd implements SubCommand {
         }
 
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+        
+        if(args.length < 4) {
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.EDIT_FRAME_NOT_EXISTS,
+                    args[1], ""));
+            return;
+        }
 
         org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
         Player actor = BukkitAdapter.adapt(player);

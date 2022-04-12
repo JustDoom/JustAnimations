@@ -19,12 +19,12 @@ public class AnimationsConfig {
 
     public static class Messages {
         public static String RELOAD, RELOAD_ERROR, RELOAD_SUCCESS;
-        public static String CREATE, CREATE_ERROR, CREATE_SUCCESS, CREATE_EXISTS;
+        public static String CREATE, CREATE_ERROR, CREATE_SUCCESS, CREATE_EXISTS, CREATE_INVALID;
         public static String DELETE, DELETE_ERROR, DELETE_SUCCESS, DELETE_NOT_EXISTS;
         public static String ANIMATION_NOT_EXISTS;
         public static String HELP;
         public static String TOGGLE_REVERSE;
-        public static String WORLD_CHANGE, WORLD_NOT_EXISTS, WORLD_IN_USE;
+        public static String WORLD_CHANGE, WORLD_NOT_EXISTS, WORLD_IN_USE, WORLD_NO_VALUE;
         public static String SETTINGS;
         public static String GETFRAME;
         public static String ADDFRAME, ADDFRAME_ERROR;
@@ -37,6 +37,8 @@ public class AnimationsConfig {
         public static String RANDOM_ERROR, RANDOM_SUCCESS;
         public static String RENAME_SUCCESS, RENAME_ERROR, RENAME_EXISTS, RENAME_NO_VALUE;
         public static String REMOVE, REMOVE_SUCCESS, REMOVE_ERROR, REMOVE_NOT_EXISTS;
+        public static String EDIT_FRAME_SUCCESS, EDIT_FRAME_ERROR, EDIT_FRAME_NOT_EXISTS;
+        public static String DELAY_SUCCESS, DELAY_ERROR, DELAY_NOT_EXISTS, DELAY_NO_VALUE, DELAY_NO_FRAME;
     }
 
     public static void load() {
@@ -53,6 +55,7 @@ public class AnimationsConfig {
         Messages.CREATE_ERROR = config.getString("messages.create-error");
         Messages.CREATE_SUCCESS = config.getString("messages.create-success");
         Messages.CREATE_EXISTS = config.getString("messages.create-exists");
+        Messages.CREATE_INVALID = config.getString("messages.create-invalid");
 
         Messages.DELETE = config.getString("messages.delete");
         Messages.DELETE_ERROR = config.getString("messages.delete-error");
@@ -68,6 +71,7 @@ public class AnimationsConfig {
         Messages.WORLD_CHANGE = config.getString("messages.world-change");
         Messages.WORLD_NOT_EXISTS = config.getString("messages.world-not-exists");
         Messages.WORLD_IN_USE = config.getString("messages.world-in-use");
+        Messages.WORLD_NO_VALUE = config.getString("messages.world-no-value");
 
         Messages.SETTINGS = config.getString("messages.settings");
 
@@ -113,6 +117,16 @@ public class AnimationsConfig {
         Messages.REMOVE_SUCCESS = config.getString("messages.remove-success");
         Messages.REMOVE_ERROR = config.getString("messages.remove-error");
         Messages.REMOVE_NOT_EXISTS = config.getString("messages.remove-not-exists");
+
+        Messages.EDIT_FRAME_ERROR = config.getString("messages.edit-error");
+        Messages.EDIT_FRAME_SUCCESS = config.getString("messages.edit-success");
+        Messages.EDIT_FRAME_NOT_EXISTS = config.getString("messages.edit-not-exists");
+
+        Messages.DELAY_SUCCESS = config.getString("messages.delay-success");
+        Messages.DELAY_ERROR = config.getString("messages.delay-error");
+        Messages.DELAY_NOT_EXISTS = config.getString("messages.delay-not-exists");
+        Messages.DELAY_NO_VALUE = config.getString("messages.delay-no-value");
+        Messages.DELAY_NO_FRAME = config.getString("messages.delay-no-frame");
 
         for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
             animation.stop();

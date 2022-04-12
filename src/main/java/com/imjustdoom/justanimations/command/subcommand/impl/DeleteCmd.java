@@ -31,7 +31,8 @@ public class DeleteCmd implements SubCommand {
         }
 
         if(args.length == 1) {
-            sender.sendMessage("Please specify an animation to delete");
+            sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELETE_NOT_EXISTS,
+                    "invalid", ""));
             return;
         }
 

@@ -50,6 +50,7 @@ public class AnimationCmd implements SubCommand {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
             return;
         }
+
         if(args.length > 2) {
             for(SubCommand subCommand : subCommands) {
                 if(subCommand.getName().equalsIgnoreCase(args[2])) {
