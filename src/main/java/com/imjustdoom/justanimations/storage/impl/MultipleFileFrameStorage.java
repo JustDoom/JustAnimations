@@ -144,7 +144,6 @@ public class MultipleFileFrameStorage implements DataStore {
     }
 
     public void setName(String name) {
-        //TODO: test
         new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + name + "/";
         this.name = name;
