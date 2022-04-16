@@ -143,8 +143,6 @@ public class BlockAnimation implements IAnimation {
         Bukkit.getPluginManager().callEvent(animationEndEvent);
     }
 
-
-    //TODO: account for animation renaming, probably just warn it cant be found and to reload the whole plugin
     public void reload() {
         boolean running = this.running;
         stop();

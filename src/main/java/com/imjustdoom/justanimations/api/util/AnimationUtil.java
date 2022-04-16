@@ -76,7 +76,7 @@ public class AnimationUtil {
     }
 
     public static void getFrames(IAnimation blockAnimation, File animation) {
-        if(!blockAnimation.isRandomFrame()) {
+        if(blockAnimation.isSaveToRam()) {
             // TODO: combined these two?
             if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
                 for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
