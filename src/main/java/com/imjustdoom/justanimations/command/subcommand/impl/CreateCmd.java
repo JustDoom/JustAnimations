@@ -30,10 +30,6 @@ public class CreateCmd implements SubCommand {
     // TODO: make this better
     public void execute(CommandSender sender, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
-            return;
-        }
-
         if(args.length == 1) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CREATE_INVALID));
             return;

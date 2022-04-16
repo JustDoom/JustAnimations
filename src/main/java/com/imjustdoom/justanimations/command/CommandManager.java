@@ -40,16 +40,16 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             sender.sendMessage("§c/justanimations reload");
         } else {
             if(JustAnimations.INSTANCE.getAnimations().containsKey(args[0])) {
-                for(SubCommand subcommand : subcommands) { // TODO: probably a better way to do this
-                    if(subcommand.getName().equalsIgnoreCase("animation") && PermissionUtil.hasPermission(Arrays.asList(subcommand.getPermission()), (Player) sender)) {
-                        subcommand.execute(sender, args);
+                for(SubCommand subCommand : subcommands) { // TODO: probably a better way to do this
+                    if(subCommand.getName().equalsIgnoreCase("animation") && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                        subCommand.execute(sender, args);
                         return true;
                     }
                 }
             } else {
-                for (SubCommand subcommand : subcommands) {
-                    if (subcommand.getName().equalsIgnoreCase(args[0]) && PermissionUtil.hasPermission(Arrays.asList(subcommand.getPermission()), (Player) sender)) {
-                        subcommand.execute(sender, args);
+                for (SubCommand subCommand : subcommands) {
+                    if (subCommand.getName().equalsIgnoreCase(args[0]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                        subCommand.execute(sender, args);
                         return true;
                     }
                 }

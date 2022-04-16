@@ -26,10 +26,6 @@ public class RemoveFrameCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
-            return;
-        }
-
         //TODO: check if frame actually exists
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 

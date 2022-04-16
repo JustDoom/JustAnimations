@@ -42,10 +42,6 @@ public class AnimationCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
-            return;
-        }
-
         if(args.length == 1 || !JustAnimations.INSTANCE.getAnimations().containsKey(args[1])) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.ANIMATION_NOT_EXISTS));
             return;
@@ -53,7 +49,7 @@ public class AnimationCmd implements SubCommand {
 
         if(args.length > 2) {
             for(SubCommand subCommand : subCommands) {
-                if(subCommand.getName().equalsIgnoreCase(args[2])) {
+                if(subCommand.getName().equalsIgnoreCase(args[2]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
                     subCommand.execute(sender, args);
                     return;
                 }

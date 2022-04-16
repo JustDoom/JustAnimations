@@ -2,7 +2,6 @@ package com.imjustdoom.justanimations.command.subcommand.impl;
 
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.IAnimation;
-import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.PermissionUtil;
 import com.imjustdoom.justanimations.api.util.TranslationUtil;
 import com.imjustdoom.justanimations.command.subcommand.SubCommand;
@@ -10,7 +9,6 @@ import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,10 +25,6 @@ public class SetDelayCmd implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
-            return;
-        }
 
         if (args.length == 4) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(

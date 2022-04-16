@@ -26,10 +26,6 @@ public class DeleteCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
-            return;
-        }
-
         if(args.length == 1) {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.DELETE_NOT_EXISTS,
                     "invalid", ""));

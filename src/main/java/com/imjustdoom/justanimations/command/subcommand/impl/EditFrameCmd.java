@@ -34,10 +34,6 @@ public class EditFrameCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
-            return;
-        }
-
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
         
         if(args.length < 4) {
