@@ -13,7 +13,7 @@ public class PlayerJoinListener implements Listener {
     public void playerJoin(PlayerJoinEvent event) {
         if(Bukkit.getOnlinePlayers().size() == 1) {
             for(IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
-                animation.play();
+                animation.play(false);
             }
         }
     }

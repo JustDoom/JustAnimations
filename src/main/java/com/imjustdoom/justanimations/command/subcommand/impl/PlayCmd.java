@@ -7,7 +7,7 @@ import com.imjustdoom.justanimations.command.subcommand.SubCommand;
 import com.imjustdoom.justanimations.config.AnimationsConfig;
 import org.bukkit.command.CommandSender;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlayCmd implements SubCommand {
@@ -34,7 +34,7 @@ public class PlayCmd implements SubCommand {
                     args[1], ""));
             return;
         }
-        animation.play();
+        animation.play(args.length != 3 && Boolean.parseBoolean(args[3]));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION,
                 args[1], ""));
     }
@@ -48,6 +48,6 @@ public class PlayCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        return Collections.emptyList();
+        return Arrays.asList("true", "false");
     }
 }

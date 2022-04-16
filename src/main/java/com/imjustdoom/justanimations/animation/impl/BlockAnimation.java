@@ -86,7 +86,7 @@ public class BlockAnimation implements IAnimation {
 
     private int frame = 0, timer = 0;
     public boolean goingReverse = false;
-    public void play() {
+    public void play(boolean playOnce) {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
             if (Bukkit.getOnlinePlayers().size() == 0 || frames.size() == 0) {
@@ -107,7 +107,12 @@ public class BlockAnimation implements IAnimation {
                 if(randomFrame) {
                     frame = (int) (Math.random() * frameCount);
                 } else if (!reverse) {
-                    frame = frame + 1 == frameCount ? 0 : frame + 1;
+                    if(frame + 1 == frameCount) {
+                        if(playOnce) stop();
+                        frame = 0;
+                    } else {
+                        frame++;
+                    }
                 } else {
                     if (goingReverse) {
                         if (frame - 1 == -1) {
@@ -152,7 +157,7 @@ public class BlockAnimation implements IAnimation {
         this.running = false;
         this.setFrameCount(dataStore.getFrameCount());
         AnimationUtil.getFrames(this, new File(this.dataStore.getDataFolder()));
-        if(running) play();
+        if(running) play(false);
     }
 
     public void setName(String name) {

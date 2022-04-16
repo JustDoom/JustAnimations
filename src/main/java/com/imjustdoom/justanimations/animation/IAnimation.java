@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IAnimation {
 
-    void play();
+    void play(boolean playOnce);
 
     void stop();
 

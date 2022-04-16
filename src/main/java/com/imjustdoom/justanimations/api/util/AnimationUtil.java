@@ -70,7 +70,7 @@ public class AnimationUtil {
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
         getFrames(blockAnimation, animation);
 
-        if (blockAnimation.getFrames().size() > 0) blockAnimation.play();
+        if (blockAnimation.getFrames().size() > 0) blockAnimation.play(false);
 
         return blockAnimation;
     }
