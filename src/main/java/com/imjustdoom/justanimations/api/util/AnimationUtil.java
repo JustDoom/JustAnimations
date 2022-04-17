@@ -54,8 +54,8 @@ public class AnimationUtil {
         FileConfiguration settingsYml = YamlConfiguration.loadConfiguration(settings);
 
         IAnimation blockAnimation = new BlockAnimation();
-        blockAnimation.setSaveToRam(settingsYml.getString("frame-load").equalsIgnoreCase("ram"));
 
+        blockAnimation.setSaveToRam(settingsYml.getString("frame-load").equalsIgnoreCase("ram"));
         blockAnimation.setDataStore(new File(animation.getPath(), "frames.yml").exists()
                 ? new SingleFileFrameStorage(animation.getName())
                 : new MultipleFileFrameStorage(animation.getName()));
@@ -63,11 +63,13 @@ public class AnimationUtil {
         blockAnimation.setName(animation.getName().replace(".yml", ""));
         blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
         blockAnimation.setRandomFrame(settingsYml.getBoolean("random-frame"));
+        blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
+
         if(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))) == null) {
             JustAnimations.INSTANCE.getLogger().warning("World " + settingsYml.getString("world") + " not found for animation " + animation.getName());
             return null;
         }
-        blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
+
         getFrames(blockAnimation, animation);
 
         if (blockAnimation.getFrames().size() > 0) blockAnimation.play(false);

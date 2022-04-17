@@ -31,8 +31,8 @@ public class BlockAnimation implements IAnimation {
     private World world;
     private Map<Integer, AnimationFrame> frames = new HashMap<>();
     private BukkitTask runnable;
-    private boolean reverse, reverseSpeedUp, saveToRam, randomFrame, running = false;
-    private int frameCount;
+    private boolean reverse, reverseSpeedUp, saveToRam, randomFrame, running = false, goingReverse = false;
+    private int frameCount, frame = 0, timer = 0;
 
     public BlockAnimation() {
     }
@@ -84,8 +84,6 @@ public class BlockAnimation implements IAnimation {
         return true;
     }
 
-    private int frame = 0, timer = 0;
-    public boolean goingReverse = false;
     public void play(boolean playOnce) {
         running = true;
         runnable = Bukkit.getScheduler().runTaskTimer(JustAnimations.INSTANCE, () -> {
