@@ -24,12 +24,14 @@ public class ConvertCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
+        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
+
         if(JustAnimations.INSTANCE.getConverting().contains(args[1])) {
-            sender.sendMessage("§cAlready converting!");
+            sender.sendMessage(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING_IN_PROGRESS,
+                    args[1],
+                    animation.getDataStore() instanceof MultipleFileFrameStorage ? "singlefile" : "multiplefile");
             return;
         }
-
-        IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
         // TODO: add warning and confirmation command and make code better
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.CONVERTING,

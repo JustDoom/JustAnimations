@@ -35,6 +35,7 @@ messages:
   go-to-frame-error: "Error while setting frame to %value% for animation '%animation%'!"
   go-to-frame-not-exists: "Frame %value% does not exist for animation '%animation%'!"
   converting: "Converting animation '%animation%' to '%value%'..."
+  converting-in-progress: "Converting animation '%animation%' to '%value%' is already in progress..."
   converting-error: "Error while converting animation '%animation%' to '%value%'!"
   converting-success: "Converted animation '%animation%' to '%value%'!"
   frame-selection-success: "Your region selection is now frame %value% of animation '%animation%'!"

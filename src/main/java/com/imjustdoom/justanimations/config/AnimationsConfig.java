@@ -31,7 +31,7 @@ public class AnimationsConfig {
         public static String PLAY_ANIMATION, PLAY_ANIMATION_ERROR, PLAY_ANIMATION_RUNNING, PLAY_ANIMATION_EMPTY;
         public static String STOP_ANIMATION, STOP_ANIMATION_ERROR, STOP_ANIMATION_NOT_RUNNING;
         public static String GO_TO_FRAME, GO_TO_FRAME_ERROR, GO_TO_FRAME_NOT_EXISTS;
-        public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS;
+        public static String CONVERTING, CONVERTING_ERROR, CONVERTING_SUCCESS, CONVERTING_IN_PROGRESS;
         public static String FRAME_SELECTION_SUCCESS, FRAME_SELECTION_ERROR;
         public static String SETLOAD, SETLOAD_SUCCESS, SETLOAD_ERROR, SETLOAD_ALREADY_SET;
         public static String RANDOM_ERROR, RANDOM_SUCCESS;
@@ -96,6 +96,7 @@ public class AnimationsConfig {
         Messages.CONVERTING = config.getString("messages.converting");
         Messages.CONVERTING_ERROR = config.getString("messages.converting-error");
         Messages.CONVERTING_SUCCESS = config.getString("messages.converting-success");
+        Messages.CONVERTING_IN_PROGRESS = config.getString("messages.converting-in-progress");
 
         Messages.FRAME_SELECTION_SUCCESS = config.getString("messages.frame-selection-success");
         Messages.FRAME_SELECTION_ERROR = config.getString("messages.frame-selection-error");
