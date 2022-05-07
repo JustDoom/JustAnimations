@@ -38,6 +38,7 @@ permissions:
       - justanimations.settings
       - justanimations.rename
       - justanimations.removeframe
+      - justanimations.copyframe
   justanimations.settings:
     default: op
     children:
@@ -81,4 +82,6 @@ permissions:
   justanimations.rename:
     default: op
   justanimations.removeframe:
+    default: op
+  justanimations.copyframe:
     default: op
