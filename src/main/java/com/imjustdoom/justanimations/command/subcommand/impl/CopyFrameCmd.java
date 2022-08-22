@@ -73,13 +73,13 @@ public class CopyFrameCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
+        if (!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (org.bukkit.entity.Player) sender)) {
             return Collections.emptyList();
         }
         if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return Collections.emptyList();
         List<String> frames = new ArrayList<>();
         int i = 0;
-        while(i <= JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1){
+        while (i <= JustAnimations.INSTANCE.getAnimations().get(args[1]).getFrameCount() - 1) {
             frames.add(String.valueOf(i));
             i++;
         }
