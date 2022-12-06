@@ -118,7 +118,7 @@ public class BlockAnimation implements IAnimation {
                             frame++;
                         } else frame--;
                     } else {
-                        if (frame + 1 == -1) {
+                        if (frame + 1 == frameCount) {
                             goingReverse = true;
                             frame--;
                         } else frame++;
