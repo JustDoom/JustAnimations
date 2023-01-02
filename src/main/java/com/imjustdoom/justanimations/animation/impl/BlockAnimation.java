@@ -110,6 +110,7 @@ public class BlockAnimation implements IAnimation {
 
                 if(!saveToRam) frames.remove(frame);
 
+                // Just don't touch...
                 if(randomFrame) {
                     frame = (int) (Math.random() * frameCount);
                 } else if (!reverse) {
