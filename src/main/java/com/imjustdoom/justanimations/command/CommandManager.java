@@ -32,7 +32,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return true;
         }
 
@@ -41,14 +41,14 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         } else {
             if(JustAnimations.INSTANCE.getAnimations().containsKey(args[0])) {
                 for(SubCommand subCommand : subcommands) { // TODO: probably a better way to do this
-                    if(subCommand.getName().equalsIgnoreCase("animation") && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                    if(subCommand.getName().equalsIgnoreCase("animation") && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), sender)) {
                         subCommand.execute(sender, args);
                         return true;
                     }
                 }
             } else {
                 for (SubCommand subCommand : subcommands) {
-                    if (subCommand.getName().equalsIgnoreCase(args[0]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                    if (subCommand.getName().equalsIgnoreCase(args[0]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), sender)) {
                         subCommand.execute(sender, args);
                         return true;
                     }
@@ -62,7 +62,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
 

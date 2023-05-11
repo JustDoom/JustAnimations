@@ -50,7 +50,7 @@ public class AnimationCmd implements SubCommand {
 
         if(args.length > 2) {
             for(SubCommand subCommand : subCommands) {
-                if(subCommand.getName().equalsIgnoreCase(args[2]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                if(subCommand.getName().equalsIgnoreCase(args[2]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), sender)) {
                     subCommand.execute(sender, args);
                     return;
                 }
@@ -69,7 +69,7 @@ public class AnimationCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
         List<String> completions = new ArrayList<>();

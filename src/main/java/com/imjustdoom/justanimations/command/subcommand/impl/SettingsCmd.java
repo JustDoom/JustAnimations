@@ -38,7 +38,7 @@ public class SettingsCmd implements SubCommand {
             sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.SETTINGS, args[1], ""));
         } else if(args.length > 3) {
             for(SubCommand subCommand : subCommands) {
-                if(subCommand.getName().equalsIgnoreCase(args[3]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), (Player) sender)) {
+                if(subCommand.getName().equalsIgnoreCase(args[3]) && PermissionUtil.hasPermission(Arrays.asList(subCommand.getPermission()), sender)) {
                     subCommand.execute(sender, args);
                 }
             }
@@ -54,7 +54,7 @@ public class SettingsCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
 
