@@ -28,6 +28,10 @@ public class FrameSelectionCmd implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
 
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to run this command");
+        }
+
         IAnimation animation = JustAnimations.INSTANCE.getAnimations().get(args[1]);
 
         if(args.length == 3) {
@@ -91,7 +95,7 @@ public class FrameSelectionCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
         if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return Collections.emptyList();

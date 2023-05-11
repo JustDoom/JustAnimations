@@ -6,7 +6,7 @@
 
     <groupId>com.imjustdoom.justanimations</groupId>
     <artifactId>JustAnimations</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>JustAnimations</name>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -101,7 +101,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

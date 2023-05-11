@@ -54,7 +54,7 @@ public class GoToFrameCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
         if (JustAnimations.INSTANCE.getAnimations().get(args[1]) == null) return Collections.emptyList();

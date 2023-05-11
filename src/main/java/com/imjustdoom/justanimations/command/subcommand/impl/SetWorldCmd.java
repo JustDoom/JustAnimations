@@ -60,7 +60,7 @@ public class SetWorldCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
         return Bukkit.getWorlds().stream().map(WorldInfo::getName).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);

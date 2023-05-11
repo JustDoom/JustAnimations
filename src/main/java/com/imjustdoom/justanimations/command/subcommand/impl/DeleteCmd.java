@@ -54,7 +54,7 @@ public class DeleteCmd implements SubCommand {
     }
 
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
-        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), (Player) sender)) {
+        if(!PermissionUtil.hasPermission(Arrays.asList(getPermission()), sender)) {
             return Collections.emptyList();
         }
         if(args.length > 2) return Collections.emptyList();
