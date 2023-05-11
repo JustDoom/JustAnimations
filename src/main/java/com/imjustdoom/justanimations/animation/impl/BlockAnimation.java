@@ -16,7 +16,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
@@ -76,14 +75,7 @@ public class BlockAnimation implements IAnimation {
             BlockData blockData = getFrames().get(this.frame).getBlockVectors().get(loc);
             Block block = this.world.getBlockAt(loc.getX(), loc.getY(), loc.getZ());
             if (block.getBlockData() == blockData) continue;
-
-            //block.setBlockData(blockData);
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.getWorld() != this.world) continue;
-                if (player.getLocation().distance(block.getLocation()) > 128) continue;
-                player.sendBlockChange(block.getLocation(), blockData);
-            }
+            block.setBlockData(blockData);
         }
 
         AnimationFrameChangeEvent animationFrameChangeEvent = new AnimationFrameChangeEvent(this);
