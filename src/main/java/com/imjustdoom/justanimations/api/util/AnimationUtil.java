@@ -27,7 +27,7 @@ public class AnimationUtil {
 
     public static AnimationFrame getFrame(IAnimation animation, String frame) {
         ConfigurationSection newFrame = animation.getDataStore().getFrame(frame);
-        if (newFrame == null) return null;
+        if(newFrame == null) return null;
         Map<BlockVector, BlockData> blockVectors = new HashMap<>();
 
         if (newFrame.contains("blocks")) {
@@ -56,14 +56,16 @@ public class AnimationUtil {
         IAnimation blockAnimation = new BlockAnimation();
 
         blockAnimation.setSaveToRam(settingsYml.getString("frame-load").equalsIgnoreCase("ram"));
-        blockAnimation.setDataStore(new File(animation.getPath(), "frames.yml").exists() ? new SingleFileFrameStorage(animation.getName()) : new MultipleFileFrameStorage(animation.getName()));
+        blockAnimation.setDataStore(new File(animation.getPath(), "frames.yml").exists()
+                ? new SingleFileFrameStorage(animation.getName())
+                : new MultipleFileFrameStorage(animation.getName()));
         blockAnimation.setFrameCount(blockAnimation.getDataStore().getFrameCount());
         blockAnimation.setName(animation.getName().replace(".yml", ""));
         blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
         blockAnimation.setRandomFrame(settingsYml.getBoolean("random-frame"));
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
 
-        if (Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))) == null) {
+        if(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))) == null) {
             JustAnimations.INSTANCE.getLogger().warning("World " + settingsYml.getString("world") + " not found for animation " + animation.getName());
             return null;
         }
@@ -76,10 +78,10 @@ public class AnimationUtil {
     }
 
     public static void getFrames(IAnimation blockAnimation, File animation) {
-        if (blockAnimation.isSaveToRam()) {
+        if(blockAnimation.isSaveToRam()) {
             // TODO: combined these two?
-            if (blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
-                for (int i = 0; i < blockAnimation.getFrameCount(); i++) {
+            if(blockAnimation.getDataStore() instanceof SingleFileFrameStorage) {
+                for(int i = 0; i < blockAnimation.getFrameCount(); i++) {
                     blockAnimation.getFrames().put(i, getFrame(blockAnimation, String.valueOf(i)));
                 }
             } else {
