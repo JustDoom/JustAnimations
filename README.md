@@ -1,6 +1,6 @@
 # JustAnimations
 
-JustAnimations is a plugin that allows you to animateblocks in Minecraft. 
+JustAnimations is a plugin that allows you to animate blocks in Minecraft. 
 Not the textures but animate stuff with blocks. It can make for cool lobbies,
 RPG servers, and more.
 
