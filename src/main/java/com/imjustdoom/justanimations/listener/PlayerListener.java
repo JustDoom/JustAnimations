@@ -12,8 +12,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) {
-        if(Bukkit.getOnlinePlayers().size() == 1) {
-            for(IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
+        if (Bukkit.getOnlinePlayers().size() == 1) {
+            for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
+                if (animation.isInactive()) continue;
                 animation.play(false);
             }
         }
@@ -21,8 +22,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void playerLeave(PlayerQuitEvent event) {
-        if(Bukkit.getOnlinePlayers().size() == 0) {
-            for(IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
+        if (Bukkit.getOnlinePlayers().size() == 0) {
+            for (IAnimation animation : JustAnimations.INSTANCE.getAnimations().values()) {
                 animation.stop();
             }
         }

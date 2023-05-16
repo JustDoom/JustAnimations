@@ -33,6 +33,7 @@ public class BlockAnimation implements IAnimation {
     private BukkitTask runnable;
     private boolean reverse, reverseSpeedUp, saveToRam, randomFrame, running = false, goingReverse = false;
     private int frameCount, frame = 0, timer = 0;
+    private boolean inactive = false;
 
     public BlockAnimation() {
     }

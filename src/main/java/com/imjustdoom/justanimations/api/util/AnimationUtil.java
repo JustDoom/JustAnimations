@@ -64,6 +64,7 @@ public class AnimationUtil {
         blockAnimation.setReverse(settingsYml.getBoolean("reverse"));
         blockAnimation.setRandomFrame(settingsYml.getBoolean("random-frame"));
         blockAnimation.setWorld(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))));
+        blockAnimation.setInactive(settingsYml.getBoolean("inactive"));
 
         if(Bukkit.getWorld(UUID.fromString(settingsYml.getString("world"))) == null) {
             JustAnimations.INSTANCE.getLogger().warning("World " + settingsYml.getString("world") + " not found for animation " + animation.getName());

@@ -27,16 +27,17 @@ public class MultipleFileFrameStorage implements DataStore {
         File data = new File(JustAnimations.INSTANCE.getAnimationDataFolder());
         if (!data.exists()) data.mkdir();
 
-        data = new File(dataFolder);
+        data = new File(this.dataFolder);
         if (!data.exists()) data.mkdir();
 
         try {
-            data = new File(dataFolder + "/settings.yml");
+            data = new File(this.dataFolder + "/settings.yml");
             YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
             config.set("reverse", false);
             config.set("world", world.getUID().toString());
             config.set("frame-load", frameLoad);
             config.set("random-frame", false);
+            config.set("inactive", false);
             config.save(data);
         } catch (IOException e) {
             e.printStackTrace();

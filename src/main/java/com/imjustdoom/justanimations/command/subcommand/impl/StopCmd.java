@@ -29,6 +29,8 @@ public class StopCmd implements SubCommand {
                     args[1], ""));
             return;
         }
+        animation.getDataStore().saveSetting("inactive", true);
+        animation.setInactive(true);
         animation.stop();
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.STOP_ANIMATION,
                 args[1], ""));

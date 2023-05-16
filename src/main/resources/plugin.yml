@@ -1,6 +1,6 @@
-name: JustAnimations
-version: 1.0.2
-main: com.imjustdoom.justanimations.JustAnimations
+name: ${name}
+version: ${version}
+main: ${groupId}.${artifactId}
 api-version: 1.18
 authors: [ JustDoom ]
 depend:

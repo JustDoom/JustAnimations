@@ -34,6 +34,8 @@ public class PlayCmd implements SubCommand {
                     args[1], ""));
             return;
         }
+        animation.getDataStore().saveSetting("inactive", false);
+        animation.setInactive(false);
         animation.play(args.length != 3 && Boolean.parseBoolean(args[3]));
         sender.sendMessage(TranslationUtil.translatePlaceholders(AnimationsConfig.PREFIX + AnimationsConfig.Messages.PLAY_ANIMATION,
                 args[1], ""));

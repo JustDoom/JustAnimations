@@ -61,4 +61,8 @@ public interface IAnimation {
     void setRandomFrame(boolean randomFrame);
 
     void reload();
+
+    boolean isInactive();
+
+    void setInactive(boolean inactive);
 }
