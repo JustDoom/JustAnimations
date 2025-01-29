@@ -9,8 +9,6 @@ import com.imjustdoom.justanimations.api.events.AnimationStartEvent;
 import com.imjustdoom.justanimations.api.util.AnimationUtil;
 import com.imjustdoom.justanimations.api.util.BlockVector;
 import com.imjustdoom.justanimations.storage.DataStore;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -22,8 +20,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@Setter
 public class BlockAnimation implements IAnimation {
 
     private DataStore dataStore;
@@ -160,8 +156,108 @@ public class BlockAnimation implements IAnimation {
         if(running) play(false);
     }
 
+    @Override
+    public boolean isReverse() {
+        return this.reverse;
+    }
+
+    @Override
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
+    }
+
+    @Override
+    public void setGoingReverse(boolean goingReverse) {
+        this.goingReverse = goingReverse;
+    }
+
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
+
+    @Override
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    @Override
+    public Map<Integer, AnimationFrame> getFrames() {
+        return this.frames;
+    }
+
+    @Override
+    public int getFrame() {
+        return this.frame;
+    }
+
+    @Override
+    public int getFrameCount() {
+        return this.frameCount;
+    }
+
+    @Override
+    public void setFrameCount(int frameCount) {
+        this.frameCount = frameCount;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return this.running;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
     public void setName(String name) {
         this.name = name;
         this.dataStore.setName(name);
+    }
+
+    @Override
+    public DataStore getDataStore() {
+        return this.dataStore;
+    }
+
+    @Override
+    public void setDataStore(DataStore dataStore) {
+        this.dataStore = dataStore;
+    }
+
+    @Override
+    public BukkitTask getRunnable() {
+        return this.runnable;
+    }
+
+    @Override
+    public boolean isSaveToRam() {
+        return this.saveToRam;
+    }
+
+    @Override
+    public void setSaveToRam(boolean saveToRam) {
+        this.saveToRam = saveToRam;
+    }
+
+    @Override
+    public boolean isRandomFrame() {
+        return this.randomFrame;
+    }
+
+    @Override
+    public void setRandomFrame(boolean randomFrame) {
+        this.randomFrame = randomFrame;
+    }
+
+    @Override
+    public boolean isInactive() {
+        return this.inactive;
+    }
+
+    @Override
+    public void setInactive(boolean inactive) {
+        this.inactive = inactive;
     }
 }

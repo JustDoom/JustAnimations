@@ -1,14 +1,10 @@
 package com.imjustdoom.justanimations.animation.frame;
 
 import com.imjustdoom.justanimations.api.util.BlockVector;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.block.data.BlockData;
 
 import java.util.Map;
 
-@Getter
-@Setter
 public class AnimationFrame {
 
     private Map<BlockVector, BlockData> blockVectors;
@@ -21,5 +17,13 @@ public class AnimationFrame {
     public AnimationFrame(Map<BlockVector, BlockData> blockVectors, int delay) {
         this.blockVectors = blockVectors;
         this.delay = delay;
+    }
+
+    public Map<BlockVector, BlockData> getBlockVectors() {
+        return this.blockVectors;
+    }
+
+    public int getDelay() {
+        return this.delay;
     }
 }

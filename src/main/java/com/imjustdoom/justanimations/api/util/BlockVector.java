@@ -1,12 +1,7 @@
 package com.imjustdoom.justanimations.api.util;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Objects;
 
-@Getter
-@Setter
 public class BlockVector {
 
     private int x;
@@ -41,5 +36,17 @@ public class BlockVector {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public int getZ() {
+        return this.z;
     }
 }

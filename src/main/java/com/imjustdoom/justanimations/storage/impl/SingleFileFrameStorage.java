@@ -3,7 +3,6 @@ package com.imjustdoom.justanimations.storage.impl;
 import com.imjustdoom.justanimations.JustAnimations;
 import com.imjustdoom.justanimations.animation.IAnimation;
 import com.imjustdoom.justanimations.storage.DataStore;
-import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +11,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-@Getter
 public class SingleFileFrameStorage implements DataStore {
 
     public String dataFolder;
@@ -165,5 +163,10 @@ public class SingleFileFrameStorage implements DataStore {
         new File(this.dataFolder).renameTo(new File(JustAnimations.INSTANCE.getDataFolder() + "/data/" + name));
         this.dataFolder = JustAnimations.INSTANCE.getDataFolder() + "/data/" + name + "/";
         this.name = name;
+    }
+
+    @Override
+    public String getDataFolder() {
+        return this.dataFolder;
     }
 }

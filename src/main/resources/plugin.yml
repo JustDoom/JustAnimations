@@ -1,7 +1,7 @@
 name: ${name}
 version: ${version}
-main: ${groupId}.${artifactId}
-api-version: 1.18
+main: ${group}.${name}
+api-version: 1.21
 authors: [ JustDoom ]
 depend:
   - WorldEdit
